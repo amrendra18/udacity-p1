@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.amrendra.popularmovies.BuildConfig;
 import com.amrendra.popularmovies.R;
+import com.amrendra.popularmovies.logger.Debug;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Debug.e(BuildConfig.THE_MOVIE_DB_API_KEY_TOKEN, false);
     }
 
 }
