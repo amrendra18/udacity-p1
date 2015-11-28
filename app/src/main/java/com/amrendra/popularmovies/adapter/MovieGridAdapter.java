@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
@@ -40,9 +41,10 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-
         holder.gridMovieNameTv.setText(movie.title);
         String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + movie.posterPath;
+
+        holder.ratingBar.setRating(((float) movie.averageVote)/2.0f);
 
         Picasso.with(holder.gridMoviePosterImage.getContext())
                 .load(imageUrl)
@@ -71,6 +73,9 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         @Bind(R.id.grid_item_movie_name_text_view)
         TextView gridMovieNameTv;
+
+        @Bind(R.id.rating)
+        RatingBar ratingBar;
 
 
         public ViewHolder(View itemView) {

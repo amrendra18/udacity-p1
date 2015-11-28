@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/grid_column_container"
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/grid_card_view_margin"
+    android:clickable="true"
+    android:foreground="@drawable/grid_item_selector"
+    card_view:cardCornerRadius="@dimen/grid_card_view_corner_radius"
+    card_view:cardElevation="@dimen/grid_card_view_elevation"
+    card_view:contentPadding="@dimen/grid_card_view_padding">
 
     <ImageView
         android:id="@+id/grid_item_movie_poster_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:transitionName="posterImageView"/>
+        android:layout_height="@dimen/grid_column_height"
+        android:scaleType="fitXY"/>
 
-    <RelativeLayout
-        android:id="@+id/grid_item_title_container"
+    <TextView
+        android:id="@+id/grid_item_movie_name_text_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/grid_column_bottom_nav_height"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="1dp"
-        android:background="@color/colorPrimaryTransparent"
-        android:gravity="bottom">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/grid_card_view_margin"
+        android:background="@drawable/grid_bottom_nav_selector"
+        android:gravity="center"
+        android:lines="@integer/movie_lines_nav_grid"
+        android:textColor="@color/white"
+        android:textSize="@dimen/grid_column_move_name_text_size"
+        android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/grid_item_movie_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/grid_column_move_name_text_size"
-            tools:text="9.2"/>
-    </RelativeLayout>
+    <RatingBar
+        android:id="@+id/rating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"/>
 
-</FrameLayout>
+</android.support.v7.widget.CardView>

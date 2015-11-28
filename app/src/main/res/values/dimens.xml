@@ -3,7 +3,17 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="grid_column_height">240dp</dimen>
+
+
+    <!-- Grid Recycler View -->
+    <dimen name="grid_column_height">250dp</dimen>
     <dimen name="grid_column_bottom_nav_height">48dp</dimen>
-    <dimen name="grid_column_move_name_text_size">24dp</dimen>
+    <dimen name="grid_column_move_name_text_size">14sp</dimen>
+    <dimen name="grid_card_view_padding">3dp</dimen>
+    <dimen name="grid_card_view_elevation">3dp</dimen>
+    <dimen name="grid_card_view_corner_radius">2dp</dimen>
+    <dimen name="grid_card_view_nav_stroke_width">1dp</dimen>
+    <dimen name="grid_card_view_margin">3dp</dimen>
+
+
 </resources>
