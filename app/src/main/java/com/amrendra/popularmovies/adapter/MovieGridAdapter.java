@@ -1,5 +1,6 @@
 package com.amrendra.popularmovies.adapter;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
+import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
 import com.amrendra.popularmovies.utils.MoviesConstants;
 import com.squareup.picasso.Picasso;
@@ -40,17 +42,24 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Movie movie = movieList.get(position);
+        final Movie movie = movieList.get(position);
         holder.gridMovieNameTv.setText(movie.title);
         String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + movie.posterPath;
 
-        holder.ratingBar.setRating(((float) movie.averageVote)/2.0f);
+        holder.ratingBar.setRating(((float) movie.averageVote) / 2.0f);
 
         Picasso.with(holder.gridMoviePosterImage.getContext())
                 .load(imageUrl)
                 .placeholder(R.mipmap.place_holder)
                         //.error(R.drawable.user_placeholder_error)
                 .into(holder.gridMoviePosterImage);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Debug.showToastShort("" + movie.title + " clicked", holder.gridMoviePosterImage.getContext());
+            }
+        });
 
     }
 
@@ -76,6 +85,9 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         @Bind(R.id.rating)
         RatingBar ratingBar;
+
+        @Bind(R.id.grid_item_container)
+        CardView cardView;
 
 
         public ViewHolder(View itemView) {

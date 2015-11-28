@@ -2,4 +2,10 @@
     <string name="app_name">Popular Movies</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
+
+
+    <!-- Menu Items -->
+    <string name="action_sort_popularity">Sort By Popularity</string>
+    <string name="action_sort_year">Sort By Year</string>
+    <string name="action_sort_favourite">Favourites</string>
 </resources>

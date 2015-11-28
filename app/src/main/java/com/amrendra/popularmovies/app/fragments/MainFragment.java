@@ -69,11 +69,23 @@ public class MainFragment extends Fragment implements LoaderManager
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_fragment_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_sort_favourite:
+                break;
+            case R.id.action_sort_popularity:
+                break;
+            case R.id.action_sort_year:
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -112,7 +124,6 @@ public class MainFragment extends Fragment implements LoaderManager
         getLoaderManager().initLoader(MOVIE_LOADER, null, this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
-
 
 
     @Override
