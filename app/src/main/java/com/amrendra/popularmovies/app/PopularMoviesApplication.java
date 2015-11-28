@@ -4,6 +4,8 @@ package com.amrendra.popularmovies.app;
 import android.app.Application;
 import android.content.res.Configuration;
 
+import com.facebook.stetho.Stetho;
+
 /**
  * Created by Amrendra Kumar on 23/11/15.
  */
@@ -26,6 +28,7 @@ public class PopularMoviesApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override
