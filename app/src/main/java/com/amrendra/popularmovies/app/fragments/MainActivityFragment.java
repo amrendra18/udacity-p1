@@ -1,10 +1,10 @@
 package com.amrendra.popularmovies.app.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.app.activities.MainActivity;
+import com.amrendra.popularmovies.loaders.MoviesLoader;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
 
@@ -23,14 +24,17 @@ import butterknife.Bind;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager
+        .LoaderCallbacks<List<Movie>> {
+
+
+    private static final int MOVIE_LOADER = 0;
 
     List<Movie> movieList;
     MainActivity mainActivity;
 
     @Bind(R.id.movies_list)
     public RecyclerView movieGridRecyleView;
-
 
 
     public MainActivityFragment() {
@@ -70,6 +74,7 @@ public class MainActivityFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Debug.c();
+        getLoaderManager().initLoader(MOVIE_LOADER, null, this);
     }
 
     @Override
@@ -106,6 +111,26 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Debug.c();
+    }
+
+
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        return new MoviesLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
+        Debug.c();
+        for (Movie movie : data) {
+            Debug.i(movie.toString(), false);
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Movie>> loader) {
         Debug.c();
     }
 }
