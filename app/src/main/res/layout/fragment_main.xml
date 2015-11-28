@@ -1,20 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="com.amrendra.popularmovies.app.activities.MainActivityFragment"
-                tools:showIn="@layout/activity_main">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/movies_list"
-        android:background="@color/colorAccent"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
-</RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movies_gridlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:clipToPadding="false"
+            android:visibility="visible"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>
