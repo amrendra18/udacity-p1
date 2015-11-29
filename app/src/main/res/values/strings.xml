@@ -19,5 +19,6 @@
         <item>@string/sort_ratings_label</item>
         <item>@string/sort_favourite_label</item>
     </string-array>
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>

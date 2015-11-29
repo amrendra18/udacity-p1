@@ -1,5 +1,12 @@
 package com.amrendra.popularmovies.adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +20,7 @@ import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
 import com.amrendra.popularmovies.utils.MoviesConstants;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,9 +36,13 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
     private List<Movie> movieList = new ArrayList<>();
 
+    private int defaultColor;
+    private Context mContext;
 
-    public MovieGridAdapter(List<Movie> movieList) {
+    public MovieGridAdapter(List<Movie> movieList, int defaultColor, Context context) {
         this.movieList = movieList;
+        this.defaultColor = defaultColor;
+        this.mContext = context;
     }
 
     @Override
@@ -48,11 +60,35 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         holder.ratingBar.setRating(((float) movie.averageVote) / 2.0f);
 
+        final GradientDrawable dw = new GradientDrawable();
+        dw.setCornerRadius(5.0f);
+        dw.setStroke(2, ContextCompat.getColor(mContext, R
+                .color
+                .colorDD));
+
         Picasso.with(holder.gridMoviePosterImage.getContext())
                 .load(imageUrl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.place_holder)
-                .into(holder.gridMoviePosterImage);
+                .into(holder.gridMoviePosterImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap posterBitmap = ((BitmapDrawable) holder.gridMoviePosterImage.getDrawable()).getBitmap();
+                        Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+                                dw.setColor(ColorUtils
+                                        .setAlphaComponent(palette
+                                                .getDarkVibrantColor(defaultColor), 150));
+                                holder.gridMovieNameTv.setBackground(dw); 
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +124,6 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         @Bind(R.id.grid_item_container)
         CardView cardView;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
