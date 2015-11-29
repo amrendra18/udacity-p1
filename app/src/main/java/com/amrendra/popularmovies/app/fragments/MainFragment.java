@@ -9,9 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -89,33 +86,10 @@ public class MainFragment extends Fragment implements LoaderManager
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        setHasOptionsMenu(false);
         Debug.c();
+        setRetainInstance(true);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main_fragment_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_sort_favourite:
-                break;
-            case R.id.action_sort_popularity:
-                break;
-            case R.id.action_sort_year:
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,8 +124,13 @@ public class MainFragment extends Fragment implements LoaderManager
 
         mMovieGridAdapter = new MovieGridAdapter(movieList);
         movieGridRecyleView.setAdapter(mMovieGridAdapter);
-
-
+        Debug.c();
+        Debug.bundle(savedInstanceState);
+        if (savedInstanceState != null) {
+            currentSortingBy = savedInstanceState.getString(MoviesConstants.SORT_BY);
+        } else {
+            currentSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+        }
         return view;
     }
 
@@ -162,69 +141,28 @@ public class MainFragment extends Fragment implements LoaderManager
 
 
         Debug.c();
-        movieList = new ArrayList<>();
+        Debug.bundle(savedInstanceState);
 
-
-        Spinner spinner = (Spinner) mainActivity.findViewById(R.id.toolbar_spinner);
-        final CustomSpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(mainActivity);
+        Spinner spinner = (Spinner) getActivity().findViewById(R.id.toolbar_spinner);
+        final CustomSpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(getActivity());
         String[] sortOptions = getResources().getStringArray(R.array.string_sort_by);
         spinnerAdapter.addItems(Arrays.asList(sortOptions));
 
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        currentSortingBy = MoviesConstants.SORT_BY_POPULARITY;
 
+        movieList = new ArrayList<>();
         getLoaderManager().initLoader(MOVIE_LOADER, null, this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    // spinner
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(MoviesConstants.SORT_BY, currentSortingBy);
         Debug.c();
-        String selection = parent.getItemAtPosition(position).toString();
-        Debug.showToastShort(selection, mainActivity);
-        Debug.e(selection, false);
-        PreferenceManager.getInstance(getActivity()).debug();
-        String nextSortingBy;
-        switch (position) {
-            case 0: // popularity
-                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
-                        MoviesConstants.SORT_BY_POPULARITY);
-                nextSortingBy = MoviesConstants.SORT_BY_POPULARITY;
-                break;
-            case 1: // ratings
-                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
-                        MoviesConstants.SORT_BY_RATINGS);
-                nextSortingBy = MoviesConstants.SORT_BY_RATINGS;
-                break;
-            case 2: //favourite
-                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
-                        MoviesConstants.SORT_BY_FAVOURITES);
-                nextSortingBy = MoviesConstants.SORT_BY_FAVOURITES;
-                break;
-            default: //popularity
-                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
-                        MoviesConstants.SORT_BY_POPULARITY);
-                nextSortingBy = MoviesConstants.SORT_BY_POPULARITY;
-                break;
-        }
-
-        if (nextSortingBy != currentSortingBy) {
-            restartLoader();
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-        currentSortingBy = nextSortingBy;
     }
-
-
-    // spinner
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
 
     @Override
     public void onStart() {
@@ -263,6 +201,13 @@ public class MainFragment extends Fragment implements LoaderManager
         Debug.c();
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainActivity = null;
+        Debug.c();
+    }
+
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
@@ -271,7 +216,7 @@ public class MainFragment extends Fragment implements LoaderManager
                 .SORT_BY, MoviesConstants.SORT_BY_POPULARITY);
         if (sortBy.equals(MoviesConstants.SORT_BY_FAVOURITES)) {
             Debug.showToastShort("Favourites not fetched", getActivity(), true);
-			mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setRefreshing(false);
             return null;
         }
         return new MoviesLoader(getActivity(), sortBy);
@@ -303,7 +248,48 @@ public class MainFragment extends Fragment implements LoaderManager
         restartLoader();
     }
 
-    private void restartLoader() {
+    public void restartLoader() {
         getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
+        mSwipeRefreshLayout.setRefreshing(true);
     }
+
+    // spinner
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Debug.c();
+        String selection = parent.getItemAtPosition(position).toString();
+        Debug.showToastShort(selection, getActivity());
+        Debug.e(selection, false);
+        PreferenceManager.getInstance(getActivity()).debug();
+        String nextSortingBy;
+        switch (position) {
+            case 0: // popularity
+                nextSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+                break;
+            case 1: // ratings
+                nextSortingBy = MoviesConstants.SORT_BY_RATINGS;
+                break;
+            case 2: //favourite
+                nextSortingBy = MoviesConstants.SORT_BY_FAVOURITES;
+                break;
+            default: //popularity
+                nextSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+                break;
+        }
+        PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
+                nextSortingBy);
+        if (nextSortingBy != currentSortingBy) {
+            restartLoader();
+        }
+        currentSortingBy = nextSortingBy;
+    }
+
+
+    // spinner
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
 }

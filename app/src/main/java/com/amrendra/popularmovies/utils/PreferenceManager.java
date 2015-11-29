@@ -45,6 +45,10 @@ public class PreferenceManager {
         mEditor.putString(key, value).commit();
     }
 
+    public void clear(){
+        mEditor.clear().commit();
+    }
+
 
     public void debug() {
         Debug.preferences(mSharedPreference);
