@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="spinner_width">125dp</dimen>
 
     <!-- Grid Recycler View -->
     <dimen name="grid_column_height">250dp</dimen>

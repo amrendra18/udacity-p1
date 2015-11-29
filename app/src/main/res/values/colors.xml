@@ -13,5 +13,6 @@
     <color name="colorDD">#50DDDDDD</color>
     <color name="black">#000000</color>
     <color name="rating_color">#f68d25</color>
+    <color name="yellow">#FFFF00</color>
 
 </resources>

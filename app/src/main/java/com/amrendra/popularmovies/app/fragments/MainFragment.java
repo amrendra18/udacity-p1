@@ -14,8 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.amrendra.popularmovies.R;
+import com.amrendra.popularmovies.adapter.CustomSpinnerAdapter;
 import com.amrendra.popularmovies.adapter.MovieGridAdapter;
 import com.amrendra.popularmovies.app.activities.MainActivity;
 import com.amrendra.popularmovies.loaders.MoviesLoader;
@@ -32,7 +35,7 @@ import butterknife.ButterKnife;
  * A placeholder fragment containing a simple view.
  */
 public class MainFragment extends Fragment implements LoaderManager
-        .LoaderCallbacks<List<Movie>>, SwipeRefreshLayout.OnRefreshListener {
+        .LoaderCallbacks<List<Movie>>, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemSelectedListener {
 
 
     private static final int MOVIE_LOADER = 0;
@@ -63,7 +66,9 @@ public class MainFragment extends Fragment implements LoaderManager
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+
+
+        setHasOptionsMenu(false);
         Debug.c();
     }
 
@@ -130,10 +135,33 @@ public class MainFragment extends Fragment implements LoaderManager
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Spinner spinner = (Spinner) mainActivity.findViewById(R.id.toolbar_spinner);
+        final CustomSpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(mainActivity);
+        spinnerAdapter.addItem("Popularity");
+        spinnerAdapter.addItem("Year");
+        spinnerAdapter.addItem("Favourite");
+
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
+
         Debug.c();
         movieList = new ArrayList<>();
         getLoaderManager().initLoader(MOVIE_LOADER, null, this);
         mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    // spinner
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Debug.showToastShort(parent.getItemAtPosition(position).toString(), mainActivity);
+    }
+
+
+    // spinner
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
 
