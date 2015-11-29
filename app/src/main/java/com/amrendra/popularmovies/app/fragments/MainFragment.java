@@ -100,6 +100,17 @@ public class MainFragment extends Fragment implements LoaderManager
         mSwipeRefreshLayout.setProgressViewOffset(true, 200, 500);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+/*        try {
+            Field f = mSwipeRefreshLayout.getClass().getDeclaredField("mCircleView");
+            f.setAccessible(true);
+            ImageView img = (ImageView)f.get(mSwipeRefreshLayout);
+            img.setImageResource(R.mipmap.loading);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }*/
+
         int gridColumns = getResources().getInteger(R.integer.grid_columns);
         Debug.e("GRID : " + gridColumns, false);
 
@@ -172,10 +183,15 @@ public class MainFragment extends Fragment implements LoaderManager
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
         Debug.c();
-        Debug.e("" + data.size(), false);
+        mSwipeRefreshLayout.setRefreshing(false);
+        //Debug.e("" + data.size(), false);
+        if(data == null || data.size() == 0){
+            Debug.showToastShort("Error", getActivity());
+            //return;
+        }
         movieList = data;
         mMovieGridAdapter.resetMovieList(data);
-        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override

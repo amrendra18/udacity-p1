@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         Debug.e(BuildConfig.THE_MOVIE_DB_API_KEY_TOKEN, false);
     }
 

@@ -50,8 +50,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         Picasso.with(holder.gridMoviePosterImage.getContext())
                 .load(imageUrl)
-                .placeholder(R.mipmap.place_holder)
-                        //.error(R.drawable.user_placeholder_error)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.place_holder)
                 .into(holder.gridMoviePosterImage);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
