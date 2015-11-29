@@ -29,13 +29,22 @@ public class PreferenceManager {
         return mSharedPreferenceMgr;
     }
 
-    public int readValue(String key) {
-        return mSharedPreference.getInt(key, 0);
+    public int readValue(String key, int defaultValue) {
+        return mSharedPreference.getInt(key, defaultValue);
     }
 
     public void writeValue(String key, int value) {
         mEditor.putInt(key, value).commit();
     }
+
+    public String readValue(String key, String defaultValue) {
+        return mSharedPreference.getString(key, defaultValue);
+    }
+
+    public void writeValue(String key, String value) {
+        mEditor.putString(key, value).commit();
+    }
+
 
     public void debug() {
         Debug.preferences(mSharedPreference);

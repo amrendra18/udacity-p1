@@ -24,8 +24,11 @@ import com.amrendra.popularmovies.app.activities.MainActivity;
 import com.amrendra.popularmovies.loaders.MoviesLoader;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
+import com.amrendra.popularmovies.utils.MoviesConstants;
+import com.amrendra.popularmovies.utils.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -50,6 +53,26 @@ public class MainFragment extends Fragment implements LoaderManager
 
     @Bind(R.id.swipe_refresh_layout)
     public SwipeRefreshLayout mSwipeRefreshLayout;
+
+
+    String currentSortingBy;
+
+        /*
+    Lifecycle of a fragment
+    1. onInflate
+    2. onAttach()
+    3. onCreate()
+    4. onCreateView()
+       Activity.onCreate()
+    5. onActivityCreated()
+    6. onStart()
+    7. onResume() Fragment is visible now
+    8. onPause()
+    9. onStop()
+    10. onDestroyView();
+    11. onDestroy()
+    12. onDetach
+     */
 
 
     public MainFragment() {
@@ -128,6 +151,7 @@ public class MainFragment extends Fragment implements LoaderManager
         mMovieGridAdapter = new MovieGridAdapter(movieList);
         movieGridRecyleView.setAdapter(mMovieGridAdapter);
 
+
         return view;
     }
 
@@ -136,17 +160,21 @@ public class MainFragment extends Fragment implements LoaderManager
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+        Debug.c();
+        movieList = new ArrayList<>();
+
+
         Spinner spinner = (Spinner) mainActivity.findViewById(R.id.toolbar_spinner);
         final CustomSpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(mainActivity);
-        spinnerAdapter.addItem("Popularity");
-        spinnerAdapter.addItem("Year");
-        spinnerAdapter.addItem("Favourite");
+        String[] sortOptions = getResources().getStringArray(R.array.string_sort_by);
+        spinnerAdapter.addItems(Arrays.asList(sortOptions));
 
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        Debug.c();
-        movieList = new ArrayList<>();
+        currentSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+
         getLoaderManager().initLoader(MOVIE_LOADER, null, this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
@@ -154,7 +182,40 @@ public class MainFragment extends Fragment implements LoaderManager
     // spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Debug.showToastShort(parent.getItemAtPosition(position).toString(), mainActivity);
+        Debug.c();
+        String selection = parent.getItemAtPosition(position).toString();
+        Debug.showToastShort(selection, mainActivity);
+        Debug.e(selection, false);
+        PreferenceManager.getInstance(getActivity()).debug();
+        String nextSortingBy;
+        switch (position) {
+            case 0: // popularity
+                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
+                        MoviesConstants.SORT_BY_POPULARITY);
+                nextSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+                break;
+            case 1: // ratings
+                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
+                        MoviesConstants.SORT_BY_RATINGS);
+                nextSortingBy = MoviesConstants.SORT_BY_RATINGS;
+                break;
+            case 2: //favourite
+                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
+                        MoviesConstants.SORT_BY_FAVOURITES);
+                nextSortingBy = MoviesConstants.SORT_BY_FAVOURITES;
+                break;
+            default: //popularity
+                PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
+                        MoviesConstants.SORT_BY_POPULARITY);
+                nextSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+                break;
+        }
+
+        if (nextSortingBy != currentSortingBy) {
+            restartLoader();
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+        currentSortingBy = nextSortingBy;
     }
 
 
@@ -205,7 +266,15 @@ public class MainFragment extends Fragment implements LoaderManager
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        return new MoviesLoader(getActivity());
+        Debug.c();
+        String sortBy = PreferenceManager.getInstance(getActivity()).readValue(MoviesConstants
+                .SORT_BY, MoviesConstants.SORT_BY_POPULARITY);
+        if (sortBy.equals(MoviesConstants.SORT_BY_FAVOURITES)) {
+            Debug.showToastShort("Favourites not fetched", getActivity(), true);
+			mSwipeRefreshLayout.setRefreshing(false);
+            return null;
+        }
+        return new MoviesLoader(getActivity(), sortBy);
     }
 
     @Override
@@ -213,7 +282,7 @@ public class MainFragment extends Fragment implements LoaderManager
         Debug.c();
         mSwipeRefreshLayout.setRefreshing(false);
         //Debug.e("" + data.size(), false);
-        if(data == null || data.size() == 0){
+        if (data == null || data.size() == 0) {
             Debug.showToastShort("Error", getActivity());
             //return;
         }

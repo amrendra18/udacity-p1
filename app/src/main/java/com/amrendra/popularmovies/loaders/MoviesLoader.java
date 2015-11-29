@@ -24,15 +24,17 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
 
 
     private List<Movie> mData;
+    String sortBy;
 
-    public MoviesLoader(Context context) {
+    public MoviesLoader(Context context, String sortBy) {
         super(context);
+        this.sortBy = sortBy;
     }
 
     @Override
     public List<Movie> loadInBackground() {
         Call<MovieList> call = MovieClientService.getInstance().getMovieList(BuildConfig
-                .THE_MOVIE_DB_API_KEY_TOKEN, "popularity.desc");
+                .THE_MOVIE_DB_API_KEY_TOKEN, sortBy);
         Response<MovieList> response = null;
         List<Movie> data = null;
         try {

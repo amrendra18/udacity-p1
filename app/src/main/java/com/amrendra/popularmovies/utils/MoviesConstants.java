@@ -15,4 +15,10 @@ public class MoviesConstants {
     // parameters
     public static final String API_KEY = "api_key";
     public static final String SORT_BY = "sort_by";
+
+
+    // sorting
+    public static final String SORT_BY_POPULARITY = "popularity.desc";
+    public static final String SORT_BY_RATINGS = "vote_average.desc";
+    public static final String SORT_BY_FAVOURITES = "show_favourites";
 }
