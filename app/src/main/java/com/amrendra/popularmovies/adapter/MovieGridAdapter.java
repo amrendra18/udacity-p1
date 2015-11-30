@@ -4,8 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -60,11 +59,15 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         holder.ratingBar.setRating(((float) movie.averageVote) / 2.0f);
 
-        final GradientDrawable dw = new GradientDrawable();
+
+        LayerDrawable bgDrawable = (LayerDrawable) holder.gridMovieNameTv.getBackground();
+        final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_id);
+
+/*        final GradientDrawable dw = new GradientDrawable();
         dw.setCornerRadius(5.0f);
         dw.setStroke(2, ContextCompat.getColor(mContext, R
                 .color
-                .colorDD));
+                .colorDD));*/
 
         Picasso.with(holder.gridMoviePosterImage.getContext())
                 .load(imageUrl)
@@ -77,10 +80,12 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
                         Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {
-                                dw.setColor(ColorUtils
-                                        .setAlphaComponent(palette
-                                                .getDarkVibrantColor(defaultColor), 150));
-                                holder.gridMovieNameTv.setBackground(dw); 
+                                Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                if (vibrant != null) {
+                                    shape.setColor(vibrant.getRgb());
+                                    shape.setAlpha(210);
+                                    holder.gridMovieNameTv.setTextColor(vibrant.getTitleTextColor());
+                                }
                             }
                         });
                     }

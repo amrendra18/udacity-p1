@@ -19,6 +19,7 @@ import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.adapter.CustomSpinnerAdapter;
 import com.amrendra.popularmovies.adapter.MovieGridAdapter;
 import com.amrendra.popularmovies.app.activities.MainActivity;
+import com.amrendra.popularmovies.listener.EndlessScrollListener;
 import com.amrendra.popularmovies.loaders.MoviesLoader;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
@@ -55,6 +56,9 @@ public class MainFragment extends Fragment implements LoaderManager
     int navColor;
 
     String currentSortingBy;
+
+
+    private EndlessScrollListener endlessScrollListener;
 
         /*
     Lifecycle of a fragment
@@ -120,19 +124,20 @@ public class MainFragment extends Fragment implements LoaderManager
 
 
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), gridColumns);
-
+        endlessScrollListener = new EndlessScrollListener(mGridLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                Debug.c();
+                Debug.e(" need more : " + current_page, false);
+            }
+        };
         movieGridRecyleView.setLayoutManager(mGridLayoutManager);
         movieGridRecyleView.setHasFixedSize(true);
         navColor = ContextCompat.getColor(getActivity(), (R.color.colorPrimaryTransparentNav));
         mMovieGridAdapter = new MovieGridAdapter(movieList, navColor, getActivity());
         movieGridRecyleView.setAdapter(mMovieGridAdapter);
-        Debug.c();
-        Debug.bundle(savedInstanceState);
-        if (savedInstanceState != null) {
-            currentSortingBy = savedInstanceState.getString(MoviesConstants.SORT_BY);
-        } else {
-            currentSortingBy = MoviesConstants.SORT_BY_POPULARITY;
-        }
+        movieGridRecyleView.addOnScrollListener(endlessScrollListener);
+
         return view;
     }
 
@@ -152,6 +157,27 @@ public class MainFragment extends Fragment implements LoaderManager
         spinnerAdapter.addItems(Arrays.asList(sortOptions));
 
         spinner.setAdapter(spinnerAdapter);
+        Debug.c();
+        Debug.bundle(savedInstanceState);
+
+/*        if (savedInstanceState != null) {
+            currentSortingBy = savedInstanceState.getString(MoviesConstants.SORT_BY);
+            if(MoviesConstants.SORT_BY_FAVOURITES.equals(currentSortingBy)){
+                spinner.setSelection(2);
+            }else if(MoviesConstants.SORT_BY_RATINGS.equals(currentSortingBy)){
+                spinner.setSelection(1);
+            }else{
+                spinner.setSelection(0);
+            }
+        } else {
+            currentSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+            spinner.setSelection(0);
+        }*/
+
+        currentSortingBy = MoviesConstants.SORT_BY_POPULARITY;
+        PreferenceManager.getInstance(getActivity()).writeValue(MoviesConstants.SORT_BY,
+                currentSortingBy);
+
         spinner.setOnItemSelectedListener(this);
 
 
@@ -283,6 +309,7 @@ public class MainFragment extends Fragment implements LoaderManager
                 nextSortingBy);
         if (nextSortingBy != currentSortingBy) {
             restartLoader();
+            movieGridRecyleView.scrollToPosition(0);
         }
         currentSortingBy = nextSortingBy;
     }
