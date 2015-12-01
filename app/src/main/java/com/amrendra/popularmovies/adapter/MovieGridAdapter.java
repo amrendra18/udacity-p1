@@ -56,18 +56,9 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         final Movie movie = movieList.get(position);
         holder.gridMovieNameTv.setText(movie.title);
         String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + movie.posterPath;
-
         holder.ratingBar.setRating(((float) movie.averageVote) / 2.0f);
-
-
         LayerDrawable bgDrawable = (LayerDrawable) holder.gridMovieNameTv.getBackground();
         final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_id);
-
-/*        final GradientDrawable dw = new GradientDrawable();
-        dw.setCornerRadius(5.0f);
-        dw.setStroke(2, ContextCompat.getColor(mContext, R
-                .color
-                .colorDD));*/
 
         Picasso.with(holder.gridMoviePosterImage.getContext())
                 .load(imageUrl)
@@ -116,6 +107,25 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         movieList = data;
         notifyDataSetChanged();
     }
+
+    public void addMovies(List<Movie> data) {
+        if (data == null) {
+            return;
+        }
+        if (movieList == null) {
+            movieList = new ArrayList<>();
+        }
+        movieList.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void clearMovies() {
+        if (movieList != null) {
+            movieList.clear();
+        }
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.grid_item_movie_poster_image)

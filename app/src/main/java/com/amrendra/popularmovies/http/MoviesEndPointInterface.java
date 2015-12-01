@@ -14,5 +14,6 @@ public interface MoviesEndPointInterface {
 
     @GET(MoviesConstants.GET_MOVIES_URL)
     Call<MovieList> getMovieList(@Query(MoviesConstants.API_KEY) String apiKey,
-                 @Query(MoviesConstants.SORT_BY) String sortBy);
+                 @Query(MoviesConstants.SORT_BY) String sortBy, @Query(MoviesConstants.PAGE) int
+            page);
 }

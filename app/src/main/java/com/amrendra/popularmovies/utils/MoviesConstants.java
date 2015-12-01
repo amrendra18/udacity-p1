@@ -15,6 +15,7 @@ public class MoviesConstants {
     // parameters
     public static final String API_KEY = "api_key";
     public static final String SORT_BY = "sort_by";
+    public static final String PAGE = "page";
 
 
     // sorting

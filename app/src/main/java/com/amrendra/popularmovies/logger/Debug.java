@@ -121,7 +121,7 @@ public class Debug {
                     sb.append(debugObject(key, bundle.get(key)));
                 }
                 sb.append("}");
-                Log.i(TAG, getMsg(sb.toString()));
+                Log.d(TAG, getMsg(sb.toString()));
             } else {
                 Log.e(TAG, getMsg("Error : Expected Bundle is null"));
             }
@@ -133,7 +133,7 @@ public class Debug {
             if (intent != null) {
                 bundle(intent.getExtras());
             } else {
-                Log.e(TAG, getMsg("Error : Expected Intent is null"));
+                Log.d(TAG, getMsg("Error : Expected Intent is null"));
             }
         }
     }
@@ -147,7 +147,7 @@ public class Debug {
                     sb.append(debugObject(entry.getKey(), entry.getValue()));
                 }
                 sb.append("}");
-                Log.i(TAG, getMsg(sb.toString()));
+                Log.d(TAG, getMsg(sb.toString()));
             } else {
                 Log.e(TAG, getMsg("Error : Expected SharedPreferences is null"));
             }

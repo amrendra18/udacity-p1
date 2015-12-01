@@ -8,7 +8,7 @@ import java.util.List;
 public class MovieList {
 
     public List<Movie> results;
-    int page;
+    public int page;
 
     @Override
     public String toString() {

@@ -6,11 +6,9 @@ import android.support.v4.content.AsyncTaskLoader;
 import com.amrendra.popularmovies.BuildConfig;
 import com.amrendra.popularmovies.http.MovieClientService;
 import com.amrendra.popularmovies.logger.Debug;
-import com.amrendra.popularmovies.model.Movie;
 import com.amrendra.popularmovies.model.MovieList;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit.Call;
 import retrofit.Response;
@@ -18,30 +16,31 @@ import retrofit.Response;
 /**
  * Created by Amrendra Kumar on 28/11/15.
  */
-public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
+public class MoviesLoader extends AsyncTaskLoader<MovieList> {
 
     // Note: Be careful not to leak resources here
 
 
-    private List<Movie> mData;
+    private MovieList mData;
     String sortBy;
+    int page;
 
-    public MoviesLoader(Context context, String sortBy) {
+    public MoviesLoader(Context context, String sortBy, int page) {
         super(context);
         this.sortBy = sortBy;
+        this.page = page;
     }
 
     @Override
-    public List<Movie> loadInBackground() {
+    public MovieList loadInBackground() {
         Call<MovieList> call = MovieClientService.getInstance().getMovieList(BuildConfig
-                .THE_MOVIE_DB_API_KEY_TOKEN, sortBy);
+                .THE_MOVIE_DB_API_KEY_TOKEN, sortBy, page);
         Response<MovieList> response = null;
-        List<Movie> data = null;
+        MovieList data = null;
         try {
             response = call.execute();
             Debug.i(response.raw().toString(), false);
-            MovieList movieList = response.body();
-            data = movieList.results;
+            data = response.body();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,13 +50,13 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
 
 
     @Override
-    public void deliverResult(List<Movie> data) {
+    public void deliverResult(MovieList data) {
         if (isReset()) {
             releaseResources(data);
             return;
         }
 
-        List<Movie> oldData = mData;
+        MovieList oldData = mData;
         mData = data;
 
         if (isStarted()) {
@@ -69,7 +68,7 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
         }
     }
 
-    private void releaseResources(List<Movie> oldData) {
+    private void releaseResources(MovieList oldData) {
     }
 
     @Override
@@ -99,7 +98,7 @@ public class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
     }
 
     @Override
-    public void onCanceled(List<Movie> data) {
+    public void onCanceled(MovieList data) {
         super.onCanceled(data);
         releaseResources(data);
     }

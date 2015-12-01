@@ -3,8 +3,6 @@ package com.amrendra.popularmovies.listener;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.amrendra.popularmovies.logger.Debug;
-
 /**
  * Created by Amrendra Kumar on 30/11/15.
  */
@@ -15,13 +13,17 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     private int visibleThreshold = 5; // The minimum amount of items to have below your current scroll position before loading more.
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
-    private int current_page = 1;
+    private int currentPage = 1;
 
 
     private GridLayoutManager mGridLayoutManager;
 
     public EndlessScrollListener(GridLayoutManager mGridLayoutManager) {
         this.mGridLayoutManager = mGridLayoutManager;
+    }
+
+    public void setCurrentPage(int page) {
+        currentPage = page;
     }
 
     // This happens many times a second during a scroll, so be wary of the code you place here.
@@ -50,12 +52,11 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         }
         if (!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)) {
-            // End has been reached
-            Debug.e(""+current_page, false);
-            // Do something
-            current_page++;
 
-            onLoadMore(current_page);
+            currentPage++;
+
+            onLoadMore(currentPage);
+
 
             loading = true;
         }
