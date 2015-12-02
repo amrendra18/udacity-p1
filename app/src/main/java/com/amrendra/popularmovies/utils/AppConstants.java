@@ -11,4 +11,5 @@ public class AppConstants {
 
     public static final String SHARED_IMAGE_VIEW = "shared_poster_image";
     public static final String MOVIE_SHARE = "movie_share";
+    public static final String MOVIE_BITMAP_SHARE = "movie_bitmap_share";
 }

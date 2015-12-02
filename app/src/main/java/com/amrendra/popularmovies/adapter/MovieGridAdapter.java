@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -81,11 +80,11 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 /*                                    shape.setColor(vibrant.getRgb());
                                     shape.setAlpha(210);
                                     holder.gridMovieNameTv.setTextColor(vibrant.getTitleTextColor());*/
-                                    shape.setColor(palette.getDarkMutedColor(ContextCompat
+/*                                    shape.setColor(palette.getDarkMutedColor(ContextCompat
                                             .getColor(mContext, R.color.colorPrimaryTransparentNav)));
                                     shape.setAlpha(190);
                                     holder.gridMovieNameTv.setTextColor(palette.getLightVibrantColor(ContextCompat
-                                            .getColor(mContext, R.color.white)));
+                                            .getColor(mContext, R.color.white)));*/
                                 }
                             }
                         });
@@ -100,7 +99,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
             @Override
             public void onClick(View v) {
                 //Debug.showToastShort("" + movie.title + " clicked", holder.gridMoviePosterImage.getContext());
-                mCallback.onClickMovieThumbnail(movieList.get(position), v);
+                Bitmap posterBitmap = ((BitmapDrawable) holder.gridMoviePosterImage.getDrawable()).getBitmap();
+                mCallback.onClickMovieThumbnail(movieList.get(position), posterBitmap, v);
             }
         });
 

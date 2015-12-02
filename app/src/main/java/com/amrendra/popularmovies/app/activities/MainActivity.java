@@ -2,6 +2,7 @@ package com.amrendra.popularmovies.app.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
     }
 
     @Override
-    public void onClickMovieThumbnail(Movie movie, View view) {
+    public void onClickMovieThumbnail(Movie movie, Bitmap bitmap, View view) {
         Debug.e("Movie clicked : " + movie.title, false);
-        Debug.showToastShort(movie.title + " clicked", this);
+        //Debug.showToastShort(movie.title + " clicked", this);
         ActivityOptions options = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Debug.e("Animation", false);
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
         }
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(AppConstants.MOVIE_SHARE, movie);
+        intent.putExtra(AppConstants.MOVIE_BITMAP_SHARE, bitmap);
         if (options != null) {
             startActivity(intent, options.toBundle());
         } else {

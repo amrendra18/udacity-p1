@@ -1,6 +1,7 @@
 package com.amrendra.popularmovies.app.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -62,7 +63,7 @@ public class MainFragment extends Fragment implements LoaderManager
     private EndlessScrollListener endlessScrollListener;
 
     public interface Callback {
-        void onClickMovieThumbnail(Movie movie, View view);
+        void onClickMovieThumbnail(Movie movie, Bitmap bitmap, View view);
     }
 
         /*
@@ -318,7 +319,6 @@ public class MainFragment extends Fragment implements LoaderManager
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 
 }
