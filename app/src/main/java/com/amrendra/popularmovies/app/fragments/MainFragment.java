@@ -61,6 +61,10 @@ public class MainFragment extends Fragment implements LoaderManager
 
     private EndlessScrollListener endlessScrollListener;
 
+    public interface Callback {
+        void onClickMovieThumbnail(Movie movie, View view);
+    }
+
         /*
     Lifecycle of a fragment
     1. onInflate
@@ -130,7 +134,8 @@ public class MainFragment extends Fragment implements LoaderManager
 
         movieGridRecyleView.setLayoutManager(mGridLayoutManager);
         movieGridRecyleView.setHasFixedSize(true);
-        mMovieGridAdapter = new MovieGridAdapter(movieList, navColor, getActivity());
+        mMovieGridAdapter = new MovieGridAdapter(movieList, navColor, getActivity(), (Callback)
+                getActivity());
         movieGridRecyleView.setAdapter(mMovieGridAdapter);
 
         // Will add later :P
@@ -264,7 +269,9 @@ public class MainFragment extends Fragment implements LoaderManager
         getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
         //mSwipeRefreshLayout.setRefreshing(true);
     }
+
     int lastSelection = 0;
+
     // spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -301,7 +308,7 @@ public class MainFragment extends Fragment implements LoaderManager
                     true);
             parent.setSelection(lastSelection);
         }
-        lastSelection =  position;
+        lastSelection = position;
 
     }
 
@@ -311,6 +318,7 @@ public class MainFragment extends Fragment implements LoaderManager
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 
 
 }

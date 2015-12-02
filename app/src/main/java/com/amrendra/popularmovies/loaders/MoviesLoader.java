@@ -7,6 +7,7 @@ import com.amrendra.popularmovies.BuildConfig;
 import com.amrendra.popularmovies.http.MovieClientService;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.MovieList;
+import com.amrendra.popularmovies.utils.MoviesConstants;
 
 import java.io.IOException;
 
@@ -24,6 +25,7 @@ public class MoviesLoader extends AsyncTaskLoader<MovieList> {
     private MovieList mData;
     String sortBy;
     int page;
+    int vote_count = MoviesConstants.VOTE_COUNT_DEFAULT;
 
     public MoviesLoader(Context context, String sortBy, int page) {
         super(context);
@@ -34,7 +36,7 @@ public class MoviesLoader extends AsyncTaskLoader<MovieList> {
     @Override
     public MovieList loadInBackground() {
         Call<MovieList> call = MovieClientService.getInstance().getMovieList(BuildConfig
-                .THE_MOVIE_DB_API_KEY_TOKEN, sortBy, page);
+                .THE_MOVIE_DB_API_KEY_TOKEN, sortBy, page, vote_count);
         Response<MovieList> response = null;
         MovieList data = null;
         try {

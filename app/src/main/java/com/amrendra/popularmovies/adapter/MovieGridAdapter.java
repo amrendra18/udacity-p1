@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
-import com.amrendra.popularmovies.logger.Debug;
+import com.amrendra.popularmovies.app.fragments.MainFragment;
 import com.amrendra.popularmovies.model.Movie;
 import com.amrendra.popularmovies.utils.MoviesConstants;
 import com.squareup.picasso.Callback;
@@ -38,10 +39,14 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     private int defaultColor;
     private Context mContext;
 
-    public MovieGridAdapter(List<Movie> movieList, int defaultColor, Context context) {
+    private MainFragment.Callback mCallback;
+
+    public MovieGridAdapter(List<Movie> movieList, int defaultColor, Context context,
+                            MainFragment.Callback callback) {
         this.movieList = movieList;
         this.defaultColor = defaultColor;
         this.mContext = context;
+        this.mCallback = callback;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Movie movie = movieList.get(position);
         holder.gridMovieNameTv.setText(movie.title);
         String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + movie.posterPath;
@@ -73,9 +78,14 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
                             public void onGenerated(Palette palette) {
                                 Palette.Swatch vibrant = palette.getVibrantSwatch();
                                 if (vibrant != null) {
-                                    shape.setColor(vibrant.getRgb());
+/*                                    shape.setColor(vibrant.getRgb());
                                     shape.setAlpha(210);
-                                    holder.gridMovieNameTv.setTextColor(vibrant.getTitleTextColor());
+                                    holder.gridMovieNameTv.setTextColor(vibrant.getTitleTextColor());*/
+                                    shape.setColor(palette.getDarkMutedColor(ContextCompat
+                                            .getColor(mContext, R.color.colorPrimaryTransparentNav)));
+                                    shape.setAlpha(190);
+                                    holder.gridMovieNameTv.setTextColor(palette.getLightVibrantColor(ContextCompat
+                                            .getColor(mContext, R.color.white)));
                                 }
                             }
                         });
@@ -89,7 +99,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Debug.showToastShort("" + movie.title + " clicked", holder.gridMoviePosterImage.getContext());
+                //Debug.showToastShort("" + movie.title + " clicked", holder.gridMoviePosterImage.getContext());
+                mCallback.onClickMovieThumbnail(movieList.get(position), v);
             }
         });
 

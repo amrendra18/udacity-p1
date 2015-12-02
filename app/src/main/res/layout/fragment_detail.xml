@@ -1,13 +1,20 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context=".app.activities.DetailFragment"
-                tools:showIn="@layout/activity_detail">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context=".app.activities.DetailFragment"
+              tools:showIn="@layout/activity_detail">
 
+    <ImageView
+        android:id="@+id/movie_poster_image"
+        android:transitionName="shared_poster_image"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="380dp" />
 
-</RelativeLayout>
+</LinearLayout>

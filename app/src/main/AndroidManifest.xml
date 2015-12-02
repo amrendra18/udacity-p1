@@ -23,7 +23,7 @@
         <activity
             android:name=".app.activities.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:parentActivityName=".app.activities.MainActivity"
+            android:parentActivityName="com.amrendra.popularmovies.app.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

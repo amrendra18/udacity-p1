@@ -16,6 +16,7 @@
         android:id="@+id/grid_item_movie_poster_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/grid_column_height"
+        android:transitionName="shared_poster_image"
         android:scaleType="fitXY"/>
 
     <TextView
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="bottom"
-        android:layout_margin="@dimen/grid_card_view_margin"
+        android:layout_margin="@dimen/grid_card_textview_margin"
         android:background="@drawable/grid_bottom_nav_selector"
         android:gravity="center"
         android:lines="@integer/movie_lines_nav_grid"

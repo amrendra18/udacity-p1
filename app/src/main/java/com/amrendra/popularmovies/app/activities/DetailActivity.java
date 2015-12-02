@@ -1,13 +1,13 @@
 package com.amrendra.popularmovies.app.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.amrendra.popularmovies.R;
+import com.amrendra.popularmovies.logger.Debug;
+import com.amrendra.popularmovies.model.Movie;
+import com.amrendra.popularmovies.utils.AppConstants;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -18,15 +18,12 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Debug.c();
+        Bundle bundle = getIntent().getExtras();
+        Debug.bundle(bundle);
+
+        Movie movie = (Movie) bundle.get(AppConstants.MOVIE_SHARE);
+        setTitle(movie.title);
     }
 
 }

@@ -22,4 +22,8 @@ public class MoviesConstants {
     public static final String SORT_BY_POPULARITY = "popularity.desc";
     public static final String SORT_BY_RATINGS = "vote_average.desc";
     public static final String SORT_BY_FAVOURITES = "show_favourites";
+
+
+    public static final String VOTE_COUNT_GTE = "vote_count.gte";
+    public static final int VOTE_COUNT_DEFAULT = 200;
 }

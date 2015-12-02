@@ -1,7 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent"
+             android:background="@color/colorPrimaryTransparent"
+             android:padding="@dimen/grid_screen_parent_padding">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -14,7 +16,7 @@
             android:id="@+id/movies_gridlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryTransparent"
+
             android:clipToPadding="false"
             android:visibility="visible"
             />
