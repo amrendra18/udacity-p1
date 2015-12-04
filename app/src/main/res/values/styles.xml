@@ -25,4 +25,49 @@
 
     <style name="Theme.DetailActivity" parent="AppTheme">
     </style>
+
+    <style name="PlayCard" parent="android:Widget">
+        <item name="android:layout_marginTop">@dimen/detail_card_view_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/detail_card_view_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/detail_card_view_margin_right</item>
+        <item name="android:padding">@dimen/detail_card_view_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CardTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">@dimen/detail_card_view_text_content_padding</item>
+    </style>
+
+    <style name="CardContent" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:padding">@dimen/detail_card_view_text_content_padding</item>
+    </style>
+
+    <style name="FillContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TableEntry">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/detail_card_table_padding</item>
+    </style>
+
+
+    <style name="TableEntry1" parent="TableEntry">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="TableEntry2" parent="TableEntry">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+
 </resources>

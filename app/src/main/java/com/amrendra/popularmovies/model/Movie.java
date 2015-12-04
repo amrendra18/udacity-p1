@@ -15,6 +15,12 @@ public class Movie implements Parcelable {
     @SerializedName("vote_count")
     public long votesCount;
 
+    @SerializedName("original_title")
+    public String originalTitle;
+
+    @SerializedName("original_language")
+    public String originalLanguage;
+
     @SerializedName("title")
     public String title;
     @SerializedName("overview")
@@ -42,6 +48,8 @@ public class Movie implements Parcelable {
         posterPath = in.readString();
         popularity = in.readDouble();
         averageVote = in.readDouble();
+        originalTitle = in.readString();
+        originalLanguage = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -89,5 +97,7 @@ public class Movie implements Parcelable {
         dest.writeString(posterPath);
         dest.writeDouble(popularity);
         dest.writeDouble(averageVote);
+        dest.writeString(originalTitle);
+        dest.writeString(originalLanguage);
     }
 }

@@ -24,4 +24,12 @@
     </string-array>
 
 
+    <string name="detail_overview">Overview</string>
+
+
+    <string name="release_date">Release Date</string>
+    <string name="original_title">Original Title</string>
+    <string name="original_language">Original Language</string>
+
+
 </resources>
