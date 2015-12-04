@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.app.fragments.MainFragment;
+import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
 import com.amrendra.popularmovies.utils.MoviesConstants;
 import com.squareup.picasso.Callback;
@@ -50,6 +51,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Debug.c();
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.grid_column_item, parent, false);
         return new ViewHolder(v);
@@ -57,6 +59,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Debug.c();
         final Movie movie = movieList.get(position);
         holder.gridMovieNameTv.setText(movie.title);
         String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + movie.posterPath;
@@ -64,7 +67,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         LayerDrawable bgDrawable = (LayerDrawable) holder.gridMovieNameTv.getBackground();
         final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_id);
 
-        Picasso.with(holder.gridMoviePosterImage.getContext())
+        Picasso.with(mContext)
                 .load(imageUrl)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.place_holder)
@@ -77,6 +80,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
                             public void onGenerated(Palette palette) {
                                 Palette.Swatch vibrant = palette.getVibrantSwatch();
                                 if (vibrant != null) {
+                                    // following code causing flicker, need to fix it.
 /*                                    shape.setColor(vibrant.getRgb());
                                     shape.setAlpha(210);
                                     holder.gridMovieNameTv.setTextColor(vibrant.getTitleTextColor());*/
@@ -138,7 +142,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener */ {
         @Bind(R.id.grid_item_movie_poster_image)
         ImageView gridMoviePosterImage;
 
@@ -154,6 +158,13 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            //itemView.setOnClickListener(this);
         }
+
+/*        @Override
+        public void onClick(View v) {
+            Debug.e("onClick " + get() + " " + mItem););
+        }*/
     }
 }

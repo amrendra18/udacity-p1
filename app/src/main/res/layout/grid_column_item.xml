@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="bottom"
+        android:cacheColorHint="@android:color/transparent"
         android:layout_margin="@dimen/grid_card_textview_margin"
         android:background="@drawable/grid_bottom_nav_selector"
         android:gravity="center"
