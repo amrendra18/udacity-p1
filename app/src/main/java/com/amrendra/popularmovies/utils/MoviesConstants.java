@@ -11,6 +11,12 @@ public class MoviesConstants {
 
     // end points urls
     public static final String GET_MOVIES_URL = "/3/discover/movie";
+    public static final String GET_REVIEWS_URL = "/3/movie/{id}/reviews";
+    public static final String GET_TRAILERS_URL = "/3/movie/{id}/videos";
+
+
+    public static final String ID = "id";
+
 
     // parameters
     public static final String API_KEY = "api_key";

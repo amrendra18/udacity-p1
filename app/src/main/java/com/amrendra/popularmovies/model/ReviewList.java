@@ -7,11 +7,15 @@ import java.util.List;
  */
 public class ReviewList {
 
-    public List<Review> movieList;
-
+    public List<Review> results;
+    public int page;
 
     @Override
     public String toString() {
-        return super.toString();
+        StringBuilder sb = new StringBuilder("[Page: " + page + "]");
+        for (Review review : results) {
+            sb.append("[Review:" + review.author + "]\n");
+        }
+        return sb.toString();
     }
 }

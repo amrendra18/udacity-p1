@@ -7,11 +7,15 @@ import java.util.List;
  */
 public class TrailerList {
 
-    public List<Trailer> movieList;
-
+    public List<Trailer> results;
+    public int page;
 
     @Override
     public String toString() {
-        return super.toString();
+        StringBuilder sb = new StringBuilder("[Page: " + page + "]");
+        for (Trailer trailer : results) {
+            sb.append("[trailer:" + trailer.site + "]\n");
+        }
+        return sb.toString();
     }
 }

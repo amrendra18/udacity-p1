@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,9 +20,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
+import com.amrendra.popularmovies.loaders.ReviewsLoader;
+import com.amrendra.popularmovies.loaders.TrailersLoader;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
+import com.amrendra.popularmovies.model.Review;
+import com.amrendra.popularmovies.model.ReviewList;
+import com.amrendra.popularmovies.model.Trailer;
+import com.amrendra.popularmovies.model.TrailerList;
 import com.amrendra.popularmovies.utils.AppConstants;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +39,10 @@ import butterknife.ButterKnife;
  * A placeholder fragment containing a simple view.
  */
 public class DetailFragment extends Fragment {
+
+
+    private static final int REVIEWS_LOADER = 0;
+    private static final int TRAILER_LOADER = 1;
 
     @Bind((R.id.collapsing_toolbar))
     CollapsingToolbarLayout mCollapsingToolbar;
@@ -60,6 +74,8 @@ public class DetailFragment extends Fragment {
 
 
     Movie mMovie = null;
+    List<Review> mReviewList = null;
+    List<Trailer> mTrailerList = null;
 
 
     public DetailFragment() {
@@ -146,7 +162,7 @@ public class DetailFragment extends Fragment {
         // add the rating
         // add details
         movieOverviewContentTv.setText(mMovie.overview);
-        movieRatingsTv.setText(Double.toString(mMovie.averageVote)+"/10");
+        movieRatingsTv.setText(Double.toString(mMovie.averageVote) + "/10");
 
         movieOriginalTitleTv.setText(mMovie.originalTitle);
         movieReleaseDateTv.setText(mMovie.releaseDate);
@@ -170,6 +186,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override
@@ -180,10 +197,19 @@ public class DetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Debug.c();
+        if (mReviewList == null || mReviewList.size() == 0) {
+            getLoaderManager().initLoader(REVIEWS_LOADER, null, reviewListLoaderCallbacks);
+        }
+        if (mTrailerList == null || mTrailerList.size() == 0) {
+            getLoaderManager().initLoader(TRAILER_LOADER, null, trailerListLoaderCallbacks);
+        }
+
     }
 
     @Override
     public void onPause() {
+        Debug.c();
         super.onPause();
     }
 
@@ -204,4 +230,46 @@ public class DetailFragment extends Fragment {
         super.onDetach();
 
     }
+
+
+    private LoaderManager.LoaderCallbacks<ReviewList> reviewListLoaderCallbacks
+            = new LoaderManager.LoaderCallbacks<ReviewList>() {
+        @Override
+        public Loader<ReviewList> onCreateLoader(int id, Bundle args) {
+            Debug.c();
+            return new ReviewsLoader(getActivity(), mMovie.id);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<ReviewList> loader, ReviewList data) {
+            Debug.e(data.toString(), false);
+            Debug.c();
+        }
+
+        @Override
+        public void onLoaderReset(Loader<ReviewList> loader) {
+            Debug.c();
+        }
+    };
+
+    private LoaderManager.LoaderCallbacks<TrailerList> trailerListLoaderCallbacks
+            = new LoaderManager.LoaderCallbacks<TrailerList>() {
+
+        @Override
+        public Loader<TrailerList> onCreateLoader(int id, Bundle args) {
+            Debug.c();
+            return new TrailersLoader(getActivity(), mMovie.id);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<TrailerList> loader, TrailerList data) {
+            Debug.e(data.toString(), false);
+            Debug.c();
+        }
+
+        @Override
+        public void onLoaderReset(Loader<TrailerList> loader) {
+            Debug.c();
+        }
+    };
 }
