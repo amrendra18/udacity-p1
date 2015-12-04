@@ -24,12 +24,13 @@
     </string-array>
 
 
-    <string name="detail_overview">Overview</string>
+    <string name="detail_overview" translatable="false">Overview</string>
+    <string name="detail_trailer" translatable="false">Trailers</string>
+    <string name="detail_reviews" translatable="false">Reviews</string>
 
-
-    <string name="release_date">Release Date</string>
-    <string name="original_title">Original Title</string>
-    <string name="original_language">Original Language</string>
+    <string name="release_date" translatable="false">Release Date</string>
+    <string name="original_title" translatable="false">Original Title</string>
+    <string name="original_language" translatable="false">Original Language</string>
 
 
 </resources>

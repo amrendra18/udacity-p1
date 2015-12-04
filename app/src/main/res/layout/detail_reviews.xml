@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
-    android:id="@+id/detail_trailer_card"
+    android:id="@+id/detail_review_card"
     style="@style/PlayCard"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -14,16 +14,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/detail_trailer_card_title"
+            android:id="@+id/detail_review_card_title"
             style="@style/CardTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/detail_trailer"/>
+            android:text="@string/detail_reviews"/>
 
         <include layout="@layout/divider"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/trailer_recyvlerview"
+            android:id="@+id/review_recyvlerview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/trailer_height"
             android:focusable="false"/>

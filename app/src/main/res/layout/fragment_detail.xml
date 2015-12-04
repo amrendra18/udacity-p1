@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
     android:fitsSystemWindows="true">
 
     <include
@@ -18,9 +17,23 @@
         android:transitionGroup="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            android:id="@+id/detail_overview_card"
-            layout="@layout/overview_detail"/>
+        <LinearLayout
+            style="@style/FillContainer"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/detail_overview_card"
+                layout="@layout/detail_overview"/>
+
+            <include
+                android:id="@+id/detail_trailer_card"
+                layout="@layout/detail_trailers"/>
+
+            <include
+                android:id="@+id/detail_review_card"
+                layout="@layout/detail_reviews"/>
+        </LinearLayout>
+
 
     </android.support.v4.widget.NestedScrollView>
 
