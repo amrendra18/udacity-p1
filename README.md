@@ -3,7 +3,7 @@
 
 
 
-# Acknowledgements
+# Learning Resources Acknowledgements
 
 1. Working with secret API keys in Android Studio/Gradle
 http://www.rainbowbreeze.it/environmental-variables-api-key-and-secret-buildconfig-and-android-studio/
