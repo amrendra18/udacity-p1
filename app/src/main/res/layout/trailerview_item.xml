@@ -14,8 +14,22 @@
 
     <ImageView
         android:id="@+id/trailerview_image"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/trailerview_width"
         android:layout_height="@dimen/trailerview_height"
         android:scaleType="fitXY"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="@dimen/trailerview_width"
+            android:layout_height="@dimen/trailerview_height"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/play_button"/>
+
+    </FrameLayout>
 
 </android.support.v7.widget.CardView>

@@ -28,9 +28,14 @@ public class TrailerViewAdapter extends RecyclerView.Adapter<TrailerViewAdapter.
     private List<Trailer> mTrailerList = new ArrayList<>();
     private Context mContext;
 
-    public TrailerViewAdapter(List<Trailer> trailers, Context context) {
+    private TrailerCallback mTrailerCallback;
+
+
+    public TrailerViewAdapter(List<Trailer> trailers, Context context,
+            TrailerCallback callback) {
         mTrailerList = trailers;
         mContext = context;
+        mTrailerCallback = callback;
     }
 
 
@@ -45,12 +50,14 @@ public class TrailerViewAdapter extends RecyclerView.Adapter<TrailerViewAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Debug.c();
-        Trailer trailer = mTrailerList.get(position);
+        final Trailer trailer = mTrailerList.get(position);
 
         String imageUrl = String.format(MoviesConstants.TRAILER_IMAGE_URL, trailer.key);
 
         Picasso.with(mContext)
                 .load(imageUrl)
+                .fit()
+                .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.place_holder)
                 .into(holder.trailerImage);
@@ -58,7 +65,12 @@ public class TrailerViewAdapter extends RecyclerView.Adapter<TrailerViewAdapter.
         // set the image
         // set the onclick listener
 
-
+        holder.trailerCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTrailerCallback.onClickTrailerThumbnail(trailer.key);
+            }
+        });
     }
 
     @Override
@@ -77,6 +89,10 @@ public class TrailerViewAdapter extends RecyclerView.Adapter<TrailerViewAdapter.
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface TrailerCallback {
+        void onClickTrailerThumbnail(String key);
     }
 }
 

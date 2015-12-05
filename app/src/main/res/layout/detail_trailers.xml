@@ -49,11 +49,19 @@
             android:text="@string/no_detail_trailers"
             android:visibility="invisible"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/trailer_recyvlerview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/trailer_height"
-            android:focusable="false"/>
+            android:layout_height="wrap_content"
+            android:padding="@dimen/trailerlayout_padding">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/trailer_recyvlerview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/trailer_height"
+                android:layout_gravity="center"
+                android:paddingTop="8dp"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>

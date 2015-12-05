@@ -38,12 +38,13 @@
     <dimen name="rating_star_height">16dp</dimen>
 
 
-
-    <dimen name="trailer_height">150dp</dimen>
+    <dimen name="trailer_height">140dp</dimen>
 
     <dimen name="progressbar_margin_right">8dp</dimen>
 
-    <dimen name="trailerview_height">150dp</dimen>
+    <dimen name="trailerview_width">135dp</dimen>
+    <dimen name="trailerview_height">100dp</dimen>
+    <dimen name="trailerlayout_padding">8dp</dimen>
 
 
 </resources>

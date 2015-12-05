@@ -31,5 +31,5 @@ public class MoviesConstants {
 
     // trailers
     public static final String TRAILER_VIDEO_URL = "http://www.youtube.com/watch?v=";
-    public static final String TRAILER_IMAGE_URL = "http://img.youtube.com/vi/%s/default.jpg";
+    public static final String TRAILER_IMAGE_URL = "http://img.youtube.com/vi/%s/0.jpg";
 }

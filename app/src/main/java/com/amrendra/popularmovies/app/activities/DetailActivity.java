@@ -11,7 +11,7 @@ import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.app.fragments.DetailFragment;
 import com.amrendra.popularmovies.logger.Debug;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

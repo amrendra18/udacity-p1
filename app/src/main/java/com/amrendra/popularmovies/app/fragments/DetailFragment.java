@@ -1,8 +1,10 @@
 package com.amrendra.popularmovies.app.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.adapter.TrailerViewAdapter;
+import com.amrendra.popularmovies.adapter.TrailerViewAdapter.TrailerCallback;
 import com.amrendra.popularmovies.loaders.ReviewsLoader;
 import com.amrendra.popularmovies.loaders.TrailersLoader;
 import com.amrendra.popularmovies.logger.Debug;
@@ -34,6 +37,7 @@ import com.amrendra.popularmovies.model.ReviewList;
 import com.amrendra.popularmovies.model.Trailer;
 import com.amrendra.popularmovies.model.TrailerList;
 import com.amrendra.popularmovies.utils.AppConstants;
+import com.amrendra.popularmovies.utils.MoviesConstants;
 
 import java.util.List;
 
@@ -43,7 +47,7 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements TrailerCallback {
 
     private static final int REVIEWS_LOADER = 0;
     private static final int TRAILER_LOADER = 1;
@@ -214,6 +218,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        trailerRecyclerView.setNestedScrollingEnabled(false);
 
     }
 
@@ -362,12 +367,31 @@ public class DetailFragment extends Fragment {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager
                     .HORIZONTAL, false);
             trailerRecyclerView.setLayoutManager(layoutManager);
-            TrailerViewAdapter adapter = new TrailerViewAdapter(trailerList, getActivity());
+            TrailerViewAdapter adapter = new TrailerViewAdapter(trailerList, getActivity(), this);
             trailerRecyclerView.setAdapter(adapter);
         } else {
             noTrailerTv.setText(getResources().getText(R.string.no_detail_trailers));
             noTrailerTv.setVisibility(View.VISIBLE);
             trailerRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    private void playTrailer(String key) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + key));
+            //intent.putExtra("force_fullscreen", true);
+            startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(MoviesConstants.TRAILER_VIDEO_URL + key));
+            //intent.putExtra("force_fullscreen", true);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onClickTrailerThumbnail(String key) {
+        Debug.e(key, false);
+        playTrailer(key);
     }
 }
