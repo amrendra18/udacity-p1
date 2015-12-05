@@ -21,10 +21,10 @@
         <ImageView
             android:id="@+id/movie_poster_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/detail_poster_height"
             android:adjustViewBounds="true"
             android:fitsSystemWindows="true"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:transitionName="shared_poster_image"
             app:layout_collapseMode="parallax"/>
 

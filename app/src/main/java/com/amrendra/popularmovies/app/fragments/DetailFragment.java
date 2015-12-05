@@ -145,10 +145,18 @@ public class DetailFragment extends Fragment implements TrailerCallback {
             case R.id.detail_share:
                 shareMovie();
                 return true;
+
+            case R.id.detail_favourite:
+                addFavourite();
+                return true;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addFavourite() {
+        Debug.showToastShort("Coming Soon : Part-2", getActivity());
     }
 
     private void shareMovie() {
@@ -220,11 +228,37 @@ public class DetailFragment extends Fragment implements TrailerCallback {
         super.onActivityCreated(savedInstanceState);
         trailerRecyclerView.setNestedScrollingEnabled(false);
 
+
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+/*        String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + MoviesConstants.IMAGE_SIZE_LARGE +
+                mMovie.posterPath;
+
+        Picasso.with(getActivity())
+                .load(imageUrl)
+                .into(posterImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Debug.e("Image replaced", false);
+                        Bitmap posterBitmap = ((BitmapDrawable) posterImageView.getDrawable()).getBitmap();
+                        Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+                                Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                if (vibrant != null) {
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });*/
     }
 
     @Override

@@ -7,7 +7,11 @@ public class MoviesConstants {
 
     // base urls
     public static final String API_BASE_URL = "https://api.themoviedb.org";
-    public static final String API_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185/";
+    public static final String API_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+
+
+    public final static String IMAGE_SIZE_SMALL = "w185/";
+    public final static String IMAGE_SIZE_LARGE = "w500/";
 
     // end points urls
     public static final String GET_MOVIES_URL = "/3/discover/movie";

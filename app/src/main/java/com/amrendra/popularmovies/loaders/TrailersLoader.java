@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.amrendra.popularmovies.BuildConfig;
-import com.amrendra.popularmovies.http.MovieClientService;
+import com.amrendra.popularmovies.api.MovieClientService;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.TrailerList;
 

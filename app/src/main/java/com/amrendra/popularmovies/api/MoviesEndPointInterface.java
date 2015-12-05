@@ -1,4 +1,4 @@
-package com.amrendra.popularmovies.http;
+package com.amrendra.popularmovies.api;
 
 import com.amrendra.popularmovies.model.MovieList;
 import com.amrendra.popularmovies.model.ReviewList;

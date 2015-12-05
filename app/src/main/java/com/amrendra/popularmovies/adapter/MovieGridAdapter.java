@@ -62,7 +62,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         Debug.c();
         final Movie movie = movieList.get(position);
         holder.gridMovieNameTv.setText(movie.title);
-        String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + movie.posterPath;
+        String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + MoviesConstants.IMAGE_SIZE_SMALL +
+                movie.posterPath;
         holder.ratingBar.setRating(((float) movie.averageVote) / 2.0f);
         LayerDrawable bgDrawable = (LayerDrawable) holder.gridMovieNameTv.getBackground();
         final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_id);
