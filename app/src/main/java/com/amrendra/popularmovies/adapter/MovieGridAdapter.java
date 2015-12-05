@@ -53,7 +53,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Debug.c();
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.grid_column_item, parent, false);
+                .inflate(R.layout.moviegrid_column_item, parent, false);
         return new ViewHolder(v);
     }
 

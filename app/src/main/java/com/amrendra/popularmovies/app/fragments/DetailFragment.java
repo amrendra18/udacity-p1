@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
+import com.amrendra.popularmovies.adapter.TrailerViewAdapter;
 import com.amrendra.popularmovies.loaders.ReviewsLoader;
 import com.amrendra.popularmovies.loaders.TrailersLoader;
 import com.amrendra.popularmovies.logger.Debug;
@@ -42,7 +44,6 @@ import butterknife.ButterKnife;
  * A placeholder fragment containing a simple view.
  */
 public class DetailFragment extends Fragment {
-
 
     private static final int REVIEWS_LOADER = 0;
     private static final int TRAILER_LOADER = 1;
@@ -88,7 +89,7 @@ public class DetailFragment extends Fragment {
     // End : Reviews Card
 
 
-    // Trailes Card
+    // Trailers Card
     @Bind(R.id.trailer_progressbar)
     ProgressBar trailerProgressbar;
 
@@ -97,7 +98,7 @@ public class DetailFragment extends Fragment {
 
     @Bind(R.id.trailer_recyvlerview)
     RecyclerView trailerRecyclerView;
-    // End : Reviews Card
+    // End : Trailer Card
 
 
     Movie mMovie = null;
@@ -226,9 +227,11 @@ public class DetailFragment extends Fragment {
         super.onResume();
         Debug.c();
         if (mReviewList == null || mReviewList.size() == 0) {
+            Debug.e("Requesting for reviews", false);
             getLoaderManager().initLoader(REVIEWS_LOADER, null, reviewListLoaderCallbacks);
         }
         if (mTrailerList == null || mTrailerList.size() == 0) {
+            Debug.e("Requesting for trailers", false);
             getLoaderManager().initLoader(TRAILER_LOADER, null, trailerListLoaderCallbacks);
         }
 
@@ -286,13 +289,14 @@ public class DetailFragment extends Fragment {
         @Override
         public Loader<TrailerList> onCreateLoader(int id, Bundle args) {
             Debug.c();
+            trailerProgressbar.setVisibility(ProgressBar.VISIBLE);
             return new TrailersLoader(getActivity(), mMovie.id);
         }
 
         @Override
         public void onLoadFinished(Loader<TrailerList> loader, TrailerList data) {
-            Debug.e(data.toString(), false);
             Debug.c();
+            addTrailers(data);
         }
 
         @Override
@@ -315,7 +319,7 @@ public class DetailFragment extends Fragment {
 
         if (!(reviewList == null || reviewList.isEmpty())) {
             int len = reviewList.size();
-
+            mReviewList = reviewList;
 
             for (int i = 0; i < len; i++) {
                 Review review = reviewList.get(i);
@@ -344,26 +348,26 @@ public class DetailFragment extends Fragment {
     private void addTrailers(TrailerList result) {
         trailerProgressbar.setVisibility(ProgressBar.INVISIBLE);
         Debug.e(result.toString(), false);
-/*        if (result == null) {
-            noReviewsTv.setText(getResources().getText(R.string.error_detail_reviews));
-            noReviewsTv.setVisibility(View.VISIBLE);
+        if (result == null) {
+            noTrailerTv.setText(getResources().getText(R.string.error_detail_trailers));
+            noTrailerTv.setVisibility(View.VISIBLE);
+            trailerRecyclerView.setVisibility(View.GONE);
             return;
         }
-        final LayoutInflater inflater = LayoutInflater.from(getActivity());
-        List<Review> reviewList = result.results;
-        if (!(reviewList == null || reviewList.isEmpty())) {
-            for (Review review : reviewList) {
-                final View reviewView = inflater.inflate(R.layout.review_layout, reviewsContainer, false);
-                TextView reviewAuthor = ButterKnife.findById(reviewView, R.id.review_by);
-                TextView reviewContent = ButterKnife.findById(reviewView, R.id.review_content);
-                reviewAuthor.setText(review.author);
-                reviewContent.setText(review.content);
-                reviewsContainer.addView(reviewView);
-            }
+        List<Trailer> trailerList = result.results;
+        mTrailerList = trailerList;
+        if (!(trailerList == null || trailerList.isEmpty())) {
+            Debug.c();
+            noTrailerTv.setVisibility(View.GONE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager
+                    .HORIZONTAL, false);
+            trailerRecyclerView.setLayoutManager(layoutManager);
+            TrailerViewAdapter adapter = new TrailerViewAdapter(trailerList, getActivity());
+            trailerRecyclerView.setAdapter(adapter);
         } else {
-            noReviewsTv.setText(getResources().getText(R.string.no_detail_reviews));
-            noReviewsTv.setVisibility(View.VISIBLE);
-        }*/
-
+            noTrailerTv.setText(getResources().getText(R.string.no_detail_trailers));
+            noTrailerTv.setVisibility(View.VISIBLE);
+            trailerRecyclerView.setVisibility(View.GONE);
+        }
     }
 }

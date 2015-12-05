@@ -70,5 +70,4 @@
     <style name="TableEntry2" parent="TableEntry">
         <item name="android:textColor">@color/colorSecondaryText</item>
     </style>
-
 </resources>
