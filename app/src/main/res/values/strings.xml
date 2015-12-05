@@ -28,6 +28,13 @@
     <string name="detail_trailer" translatable="false">Trailers</string>
     <string name="detail_reviews" translatable="false">Reviews</string>
 
+
+    <string name="review_by" translatable="false">By:</string>
+    <string name="no_detail_reviews" translatable="false">No reviews!!</string>
+    <string name="no_detail_trailers" translatable="false">No Trailers!!</string>
+    <string name="error_detail_reviews" translatable="false">Error fetching reviews!!</string>
+    <string name="error_detail_trailers" translatable="false">Error fetching Trailers!!</string>
+
     <string name="release_date" translatable="false">Release Date</string>
     <string name="original_title" translatable="false">Original Title</string>
     <string name="original_language" translatable="false">Original Language</string>

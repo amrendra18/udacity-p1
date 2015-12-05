@@ -6,7 +6,7 @@
             <solid android:color="@color/colorPrimaryTransparentNav"/>
             <stroke
                 android:width="@dimen/grid_card_view_nav_stroke_width"
-                android:color="@color/colorDD"/>
+                android:color="@color/colorBB"/>
             <corners android:radius="@dimen/grid_card_view_corner_radius"/>
         </shape>
     </item>

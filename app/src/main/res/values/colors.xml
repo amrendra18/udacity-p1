@@ -9,7 +9,8 @@
 
     <color name="colorPrimaryTransparentNav">#75000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="colorDD">#75DDDDDD</color>
+    <color name="colorBB">#50BBBBBB</color>
+    <color name="colorDD">#60DDDDDD</color>
     <color name="black">#000000</color>
     <color name="rating_color">#f68d25</color>
     <color name="yellow">#FFFF00</color>
