@@ -14,3 +14,10 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 - [Butterknife](http://jakewharton.github.io/butterknife/) [For binding]
 - [Retrofit](http://square.github.io/retrofit/) [For rest api calls]
 - [Gson](http://mvnrepository.com/artifact/com.squareup.retrofit/converter-gson/2.0.0-beta1) [For json handling]
+
+## ToDo (Part-2)
+1. Endless Scroll
+2. Dynamic change color of drawable without flickering
+3. Add network connection listener and handling.
+4. Add favourite, using db and content provider
+5. Provide search 
