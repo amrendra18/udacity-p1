@@ -1,5 +1,5 @@
 # Filmie
-Movie browsing app, made using [themoviedb](https://www.themoviedb.org/) apis,
+Movie browsing app, made using [themoviedb](https://www.themoviedb.org/) api,
 as part of Udacity : Popular Movies (Part-1)
 
 ## Add API key
@@ -8,6 +8,9 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 
 ## Preview
 ![Preview Video](../master/preview/filmie1.gif)   ![Preview Video](../master/preview/filmie2.gif)
+
+## Overview
+![Implementation](../master/Implementation.txt)
 
 ## Third Party Libraries Used
 
