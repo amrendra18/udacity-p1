@@ -19,7 +19,7 @@
         android:transitionName="shared_poster_image"
         android:scaleType="fitXY"/>
 
-    <TextView
+<!--    <TextView
         android:id="@+id/grid_item_movie_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         android:lines="@integer/movie_lines_nav_grid"
         android:textColor="@color/white"
         android:textSize="@dimen/grid_column_move_name_text_size"
-        android:textStyle="bold"/>
+        android:textStyle="bold"/>-->
 
     <RatingBar
         android:id="@+id/rating"

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Movi
         setSupportActionBar(toolbar);
 
         mMainFragment =
-                (MainFragment )getSupportFragmentManager().findFragmentById(R.id.fragment_main);
+                (MainFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_main);
 
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Movi
     @Override
     public void onBackgroundChange(int color) {
         this.backgroundColor = color;
-        if(tablet && mMainFragment != null){
+        if (tablet && mMainFragment != null) {
             mMainFragment.changeBackgroundColor(color);
         }
     }

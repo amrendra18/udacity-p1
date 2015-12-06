@@ -60,6 +60,9 @@ public class DetailFragment extends Fragment implements TrailerCallback {
     private static final int REVIEWS_LOADER = 0;
     private static final int TRAILER_LOADER = 1;
 
+    @Bind(R.id.full_content_detail_fragment)
+    LinearLayout fullContainer;
+
     @Nullable
     @Bind((R.id.collapsing_toolbar))
     CollapsingToolbarLayout mCollapsingToolbar;
@@ -164,6 +167,11 @@ public class DetailFragment extends Fragment implements TrailerCallback {
 
     }
 
+    public void selectMovie() {
+        fullContainer.setVisibility(View.GONE);
+        mCollapsingToolbar.setTitle("Select a movie. #Filmie");
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Debug.c();
@@ -217,11 +225,15 @@ public class DetailFragment extends Fragment implements TrailerCallback {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, rootView);
         Bundle passedBundle = getArguments();
-        if (passedBundle != null) {
-            setupDetails(passedBundle);
+        if (passedBundle == null) {
+            selectMovie();
         } else {
-            // default no selection yet
-            Debug.e("SHOULD NOT HAPPEN", false);
+            mMovie = (Movie) passedBundle.get(AppConstants.MOVIE_SHARE);
+            if (mMovie != null) {
+                setupDetails(passedBundle);
+            } else {
+                selectMovie();
+            }
         }
         addBackHomeArrow(rootView);
         return rootView;
@@ -438,7 +450,7 @@ public class DetailFragment extends Fragment implements TrailerCallback {
 
     private void addTrailers(TrailerList result) {
         trailerProgressbar.setVisibility(ProgressBar.INVISIBLE);
-        Debug.e(result.toString(), false);
+        //Debug.e(result.toString(), false);
         if (result == null) {
             noTrailerTv.setText(getResources().getText(R.string.error_detail_trailers));
             noTrailerTv.setVisibility(View.VISIBLE);

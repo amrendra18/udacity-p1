@@ -3,8 +3,6 @@ package com.amrendra.popularmovies.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
 import com.amrendra.popularmovies.logger.Debug;
@@ -65,12 +62,12 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Debug.c();
         final Movie movie = movieList.get(position);
-        holder.gridMovieNameTv.setText(movie.title);
+        //holder.gridMovieNameTv.setText(movie.title);
         String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + MoviesConstants.IMAGE_SIZE_SMALL +
                 movie.posterPath;
         holder.ratingBar.setRating(((float) movie.averageVote) / 2.0f);
-        LayerDrawable bgDrawable = (LayerDrawable) holder.gridMovieNameTv.getBackground();
-        final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_id);
+/*        LayerDrawable bgDrawable = (LayerDrawable) holder.gridMovieNameTv.getBackground();
+        final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_id);*/
 
         Picasso.with(mContext)
                 .load(imageUrl)
@@ -150,8 +147,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
         @Bind(R.id.grid_item_movie_poster_image)
         ImageView gridMoviePosterImage;
 
-        @Bind(R.id.grid_item_movie_name_text_view)
-        TextView gridMovieNameTv;
+/*        @Bind(R.id.grid_item_movie_name_text_view)
+        TextView gridMovieNameTv;*/
 
         @Bind(R.id.rating)
         RatingBar ratingBar;
