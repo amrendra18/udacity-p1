@@ -1,5 +1,5 @@
-# Filmie
-Movie browsing app, made using [https://www.themoviedb.org/](https://www.themoviedb.org/) apis,
+# Filmie ![Image](../master/app/src/main/res/mipmap-hdpi/ic_launcher.png)
+Movie browsing app, made using [themoviedb](https://www.themoviedb.org/) apis,
 as part of Udacity : Popular Movies (Part-1)
 
 ## Add API key
@@ -25,16 +25,21 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 
 2. Retrofit
 [Link](http://square.github.io/retrofit/)
+
 [Link](http://www.vogella.com/tutorials/Retrofit/article.html)
+
 [Link](https://bekk.github.io/android101/pages/retrofit.html)
+
 [Link](http://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/)
+
 [Link](https://guides.codepath.com/android/Consuming-APIs-with-Retrofit)
+
 
 3. Lifecycle of fragment 
 [Link](http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html)
 
 4. Loaders
-[Link]http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html
+[Link](http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html)
 
 
 ## ToDo (Part-2)
