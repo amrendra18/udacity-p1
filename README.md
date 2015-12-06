@@ -28,26 +28,19 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 [Link](https://bekk.github.io/android101/pages/retrofit.html)
 [Link](http://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/)
 [Link](https://guides.codepath.com/android/Consuming-APIs-with-Retrofit)
-
 3. Lifecycle of fragment 
 [Link](http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html)
-
 4. Loaders
 [Link](http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html)
-
 5. Pallete
 [Link](https://github.com/codepath/android_guides/wiki/Dynamic-Color-using-Palettes)
-
 6. Share Element Transition
 [Link](https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition)
-
 7. EndlessScroll
 [Link](https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews-and-RecyclerView)
-
 8. Spinner in toolbar
 [Link](http://android-pratap.blogspot.in/2015/01/spinner-in-toolbar-example-in-android.html)
 [Link](https://dabx.io/2015/01/02/material-design-spinner-toolbar-style-fix/)
-
 9. Android Studio Assets
 [Link](https://romannurik.github.io/AndroidAssetStudio/index.html)
 
