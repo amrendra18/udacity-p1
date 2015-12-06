@@ -1,0 +1,46 @@
+
+Implementation
+
+Components
+	Activities
+		- MainActivity
+		- DetailActivity (for small screens only)
+		For tablets, MainActivity only hosts the 2 fragments.
+
+	Fragments
+		- MainFragment
+			Contains the grid list of movies fetched from themoviedb api
+		- DetailFragment
+			Shows details of a particular movie
+
+	DataModel
+		- Movie & MovieList
+		- Trailer & TrailerList
+		- Review & ReviewList
+
+	CustomLoaders : Used 3 different loaders (extends AsyncTaskLoader) for loading the data asynchronously
+		- MovieLoader
+		- ReviewLoader
+		- TrailerLoader
+
+	CustomAdapters 
+		- CustomSpinnerAdapter
+		- MovieGridAdapter
+		- TrailerViewAdapter
+
+	Custom End Point Service using retrofit
+		- MoviesEndPointInterface
+		
+
+Highlights:
+1. Used Retrofit to make the REST API calls
+2. Used Grid RecyclerView for showing list of movies in MainFragment
+3. Each movie poster is shown on a custom card view.
+4.. Used Shared Element Transition for showing animation of selected poster from MainActivity to DetailActivity.
+5. Used custom collapsing toolbar for material scrolling effect, which includes custom statusbar color.
+6. Detail page shows overviews, trailer, reviews, each on cutsom card view.
+7. Trailer are shown on Linear RecyclerView.
+8. Singleton Debug logger class
+9. Used picasso for image loading and caching.
+10. Used pallete for extracting vibrant colors from poster images and setting as background color, and statusbar & nav bar color.
+11. Added share intent which shares trailer and movie name.
