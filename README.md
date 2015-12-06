@@ -1,23 +1,16 @@
 # Udacity : PopularMovies App
 
+## Add API key
+In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key 
 
 
-
-# Learning Resources Acknowledgements
-
-1. Working with secret API keys in Android Studio/Gradle
-http://www.rainbowbreeze.it/environmental-variables-api-key-and-secret-buildconfig-and-android-studio/
+## Preview
 
 
-2. Retrofit
-http://square.github.io/retrofit/
-http://www.vogella.com/tutorials/Retrofit/article.html
-https://bekk.github.io/android101/pages/retrofit.html
-http://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/
-https://guides.codepath.com/android/Consuming-APIs-with-Retrofit
+## Third Party Libraries Used
 
-3. Lifecycle of fragment
-http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html
-
-4. Loaders
-http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html
+- Stetho [For debugging]
+- Picasso [For image loading/caching]
+- Butterknife [For binding]
+- Retrofit [For rest api calls]
+- Gson [For json handling]
