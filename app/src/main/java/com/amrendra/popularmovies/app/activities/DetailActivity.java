@@ -22,7 +22,7 @@ public class DetailActivity extends AppCompatActivity{
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Bundle bundle = new Bundle(getIntent().getExtras());
-            Fragment detailFragment = DetailFragment.getInstance(bundle);
+            Fragment detailFragment = DetailFragment.getInstance(bundle, false);
             fragmentTransaction.add(R.id.detail_activity_container, detailFragment);
             fragmentTransaction.commit();
         }

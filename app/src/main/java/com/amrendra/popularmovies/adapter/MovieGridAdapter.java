@@ -16,7 +16,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.amrendra.popularmovies.R;
-import com.amrendra.popularmovies.app.fragments.MainFragment;
 import com.amrendra.popularmovies.logger.Debug;
 import com.amrendra.popularmovies.model.Movie;
 import com.amrendra.popularmovies.utils.MoviesConstants;
@@ -39,14 +38,19 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
     private int defaultColor;
     private Context mContext;
 
-    private MainFragment.Callback mCallback;
+    public interface OnMovieViewClickListener {
+        void onClickMovieThumbnail(Movie movie, Bitmap bitmap, View view);
+    }
+
+    private OnMovieViewClickListener onMovieViewClickListener;
+
 
     public MovieGridAdapter(List<Movie> movieList, int defaultColor, Context context,
-                            MainFragment.Callback callback) {
+                            OnMovieViewClickListener listener) {
         this.movieList = movieList;
         this.defaultColor = defaultColor;
         this.mContext = context;
-        this.mCallback = callback;
+        this.onMovieViewClickListener = listener;
     }
 
     @Override
@@ -104,7 +108,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
             public void onClick(View v) {
                 //Debug.showToastShort("" + movie.title + " clicked", holder.gridMoviePosterImage.getContext());
                 Bitmap posterBitmap = ((BitmapDrawable) holder.gridMoviePosterImage.getDrawable()).getBitmap();
-                mCallback.onClickMovieThumbnail(movieList.get(position), posterBitmap, v);
+                onMovieViewClickListener.onClickMovieThumbnail(movieList.get(position), posterBitmap, v);
             }
         });
 

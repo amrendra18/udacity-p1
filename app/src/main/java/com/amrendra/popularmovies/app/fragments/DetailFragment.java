@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -54,9 +55,12 @@ import butterknife.ButterKnife;
  */
 public class DetailFragment extends Fragment implements TrailerCallback {
 
+    public static final String TAG = "detailFragment";
+
     private static final int REVIEWS_LOADER = 0;
     private static final int TRAILER_LOADER = 1;
 
+    @Nullable
     @Bind((R.id.collapsing_toolbar))
     CollapsingToolbarLayout mCollapsingToolbar;
 
@@ -117,14 +121,28 @@ public class DetailFragment extends Fragment implements TrailerCallback {
     List<Review> mReviewList = null;
     List<Trailer> mTrailerList = null;
 
+    private boolean isTablet = false;
 
     public DetailFragment() {
         Debug.c();
     }
 
-    public static DetailFragment getInstance(Bundle bundle) {
+    public interface ColorCallback {
+        public void onBackgroundChange(int color);
+    }
+
+    private ColorCallback mColorCallback;
+
+
+    public void setTablet(boolean isTablet) {
+        this.isTablet = isTablet;
+    }
+
+
+    public static DetailFragment getInstance(Bundle bundle, boolean tablet) {
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
+        fragment.setTablet(tablet);
         Debug.c();
         return fragment;
     }
@@ -132,6 +150,11 @@ public class DetailFragment extends Fragment implements TrailerCallback {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            mColorCallback = (ColorCallback) context;
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -178,7 +201,7 @@ public class DetailFragment extends Fragment implements TrailerCallback {
         }
         movieText += "Shared via #" + getResources().getString(R.string.app_name) + "\n";
         if (mTrailerList != null && mTrailerList.size() > 0) {
-            shareIntent.putExtra(Intent.EXTRA_TEXT, movieText+ MoviesConstants.TRAILER_VIDEO_URL +
+            shareIntent.putExtra(Intent.EXTRA_TEXT, movieText + MoviesConstants.TRAILER_VIDEO_URL +
                     mTrailerList.get(0).key);
         }
 
@@ -197,6 +220,7 @@ public class DetailFragment extends Fragment implements TrailerCallback {
         if (passedBundle != null) {
             setupDetails(passedBundle);
         } else {
+            // default no selection yet
             Debug.e("SHOULD NOT HAPPEN", false);
         }
         addBackHomeArrow(rootView);
@@ -206,35 +230,35 @@ public class DetailFragment extends Fragment implements TrailerCallback {
     private void setupDetails(Bundle bundle) {
         // fetch the movie
         mMovie = (Movie) bundle.get(AppConstants.MOVIE_SHARE);
-        // set the poster for now
-        // later get high resolution pic and replace silently ;-)
-        posterImageView.setImageBitmap((Bitmap) bundle.get(AppConstants
-                .MOVIE_BITMAP_SHARE));
-        // set the title in the toolbar
-        mCollapsingToolbar.setTitle(mMovie.title);
 
-        // add the overview
-        // add the rating
-        // add details
-        movieOverviewContentTv.setText(mMovie.overview);
-        movieRatingsTv.setText(Double.toString(mMovie.averageVote) + "/10");
+        if (mMovie != null) {
+            // set the poster for now
+            // later get high resolution pic and replace silently ;-)
+            posterImageView.setImageBitmap((Bitmap) bundle.get(AppConstants
+                    .MOVIE_BITMAP_SHARE));
+            // set the title in the toolbar
+            mCollapsingToolbar.setTitle(mMovie.title);
 
-        movieOriginalTitleTv.setText(mMovie.originalTitle);
-        movieReleaseDateTv.setText(mMovie.releaseDate);
-        movieOriginalLanguageTv.setText(mMovie.originalLanguage);
+            // add the overview
+            // add the rating
+            // add details
+            movieOverviewContentTv.setText(mMovie.overview);
+            movieRatingsTv.setText(Double.toString(mMovie.averageVote) + "/10");
 
-    }
-
-    private void setupToolbar() {
-
+            movieOriginalTitleTv.setText(mMovie.originalTitle);
+            movieReleaseDateTv.setText(mMovie.releaseDate);
+            movieOriginalLanguageTv.setText(mMovie.originalLanguage);
+        }
     }
 
     private void addBackHomeArrow(View rootView) {
-        //for creating home button
-        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (!isTablet) {
+            //for creating home button
+            final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 
@@ -255,36 +279,54 @@ public class DetailFragment extends Fragment implements TrailerCallback {
     public void onResume() {
         super.onResume();
         Debug.c();
-        if (mReviewList == null || mReviewList.size() == 0) {
-            Debug.e("Requesting for reviews", false);
-            getLoaderManager().initLoader(REVIEWS_LOADER, null, reviewListLoaderCallbacks);
-        }
-        if (mTrailerList == null || mTrailerList.size() == 0) {
-            Debug.e("Requesting for trailers", false);
-            getLoaderManager().initLoader(TRAILER_LOADER, null, trailerListLoaderCallbacks);
-        }
 
-
-        Bitmap posterBitmap = ((BitmapDrawable) posterImageView.getDrawable()).getBitmap();
-        Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                Debug.e("Changing colors", false);
-                int currentColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
-                int whiteColor = ContextCompat.getColor(getActivity(), R.color.background);
-                int navLightColor = palette.getVibrantColor(currentColor);
-                int navDarkColor = palette.getDarkVibrantColor(currentColor);
-                mCollapsingToolbar.setContentScrimColor(navLightColor);
-                mCollapsingToolbar.setStatusBarScrimColor(navDarkColor);
-                detailContainer.setBackgroundColor(palette.getLightVibrantColor(whiteColor));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getActivity().getWindow().setNavigationBarColor(navLightColor);
-                }
-            }
-        });
-
+        initLoaders();
+        changeToDynamicColor();
 
     }
+
+    private void changeToDynamicColor() {
+        if (mMovie != null) {
+            Bitmap posterBitmap = ((BitmapDrawable) posterImageView.getDrawable()).getBitmap();
+            Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    Debug.e("Changing colors", false);
+                    int currentColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+                    int whiteColor = ContextCompat.getColor(getActivity(), R.color.background);
+                    int navLightColor = palette.getVibrantColor(currentColor);
+                    int navDarkColor = palette.getDarkVibrantColor(currentColor);
+                    mCollapsingToolbar.setContentScrimColor(navLightColor);
+                    mCollapsingToolbar.setStatusBarScrimColor(navDarkColor);
+                    int backgroundColor = palette.getLightVibrantColor(whiteColor);
+                    detailContainer.setBackgroundColor(backgroundColor);
+
+                    if (!isTablet && Build.VERSION.SDK_INT >= Build.VERSION_CODES
+                            .LOLLIPOP) {
+                        getActivity().getWindow().setNavigationBarColor(navLightColor);
+                    }
+                    Debug.e("Is tablet : " + isTablet, false);
+                    if (isTablet && mColorCallback != null) {
+                        mColorCallback.onBackgroundChange(backgroundColor);
+                    }
+                }
+            });
+        }
+    }
+
+    private void initLoaders() {
+        if (mMovie != null) {
+            if (mReviewList == null || mReviewList.size() == 0) {
+                Debug.e("Requesting for reviews", false);
+                getLoaderManager().initLoader(REVIEWS_LOADER, null, reviewListLoaderCallbacks);
+            }
+            if (mTrailerList == null || mTrailerList.size() == 0) {
+                Debug.e("Requesting for trailers", false);
+                getLoaderManager().initLoader(TRAILER_LOADER, null, trailerListLoaderCallbacks);
+            }
+        }
+    }
+
 
     @Override
     public void onPause() {

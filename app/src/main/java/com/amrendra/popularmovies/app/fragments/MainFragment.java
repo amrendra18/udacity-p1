@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 
 import com.amrendra.popularmovies.R;
@@ -39,7 +40,7 @@ import butterknife.ButterKnife;
  */
 public class MainFragment extends Fragment implements LoaderManager
         .LoaderCallbacks<MovieList>, /*SwipeRefreshLayout.OnRefreshListener,*/ AdapterView
-        .OnItemSelectedListener {
+        .OnItemSelectedListener, MovieGridAdapter.OnMovieViewClickListener {
 
 
     private static final int MOVIE_LOADER = 0;
@@ -55,14 +56,26 @@ public class MainFragment extends Fragment implements LoaderManager
     @Bind(R.id.swipe_refresh_layout)
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
+    @Bind(R.id.fragment_main_framelayout)
+    FrameLayout mainFragmentFrameLayout;
+
     int navColor;
 
     String currentSortingBy;
+    private MovieClickCallback movieClickCallback;
 
 
     private EndlessScrollListener endlessScrollListener;
 
-    public interface Callback {
+    @Override
+    public void onClickMovieThumbnail(Movie movie, Bitmap bitmap, View view) {
+        movieClickCallback.onClickMovieThumbnail(movie, bitmap, view);
+
+    }
+
+
+
+    public interface MovieClickCallback {
         void onClickMovieThumbnail(Movie movie, Bitmap bitmap, View view);
     }
 
@@ -91,6 +104,7 @@ public class MainFragment extends Fragment implements LoaderManager
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        movieClickCallback = (MovieClickCallback) context;
         Debug.c();
     }
 
@@ -135,8 +149,8 @@ public class MainFragment extends Fragment implements LoaderManager
 
         movieGridRecyleView.setLayoutManager(mGridLayoutManager);
         movieGridRecyleView.setHasFixedSize(true);
-        mMovieGridAdapter = new MovieGridAdapter(movieList, navColor, getActivity(), (Callback)
-                getActivity());
+        mMovieGridAdapter = new MovieGridAdapter(movieList, navColor, getActivity(),
+                this);
         movieGridRecyleView.setAdapter(mMovieGridAdapter);
 
         // Will add later :P
@@ -320,5 +334,8 @@ public class MainFragment extends Fragment implements LoaderManager
 
     }
 
+    public void changeBackgroundColor(int color){
+        mainFragmentFrameLayout.setBackgroundColor(color);
+    }
 
 }
