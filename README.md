@@ -5,7 +5,7 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 
 
 ## Preview
-[Preview Video](../master/preview/filmie1.gif)
+![Preview Video](../master/preview/filmie1.gif)
 
 ## Third Party Libraries Used
 
