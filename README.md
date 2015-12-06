@@ -1,4 +1,4 @@
-# Filmie ![Image](../master/app/src/main/res/mipmap-hdpi/ic_launcher.png)
+# Filmie
 Movie browsing app, made using [themoviedb](https://www.themoviedb.org/) apis,
 as part of Udacity : Popular Movies (Part-1)
 
@@ -22,18 +22,12 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 1. Working with secret API keys in Android Studio/Gradle 
 [Link](http://www.rainbowbreeze.it/environmental-variables-api-key-and-secret-buildconfig-and-android-studio/
 )
-
 2. Retrofit
 [Link](http://square.github.io/retrofit/)
-
 [Link](http://www.vogella.com/tutorials/Retrofit/article.html)
-
 [Link](https://bekk.github.io/android101/pages/retrofit.html)
-
 [Link](http://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/)
-
 [Link](https://guides.codepath.com/android/Consuming-APIs-with-Retrofit)
-
 
 3. Lifecycle of fragment 
 [Link](http://www.javacodegeeks.com/2013/06/android-fragment-lifecycle-multiple-screen-support.html)
@@ -52,7 +46,6 @@ In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key
 
 8. Spinner in toolbar
 [Link](http://android-pratap.blogspot.in/2015/01/spinner-in-toolbar-example-in-android.html)
-
 [Link](https://dabx.io/2015/01/02/material-design-spinner-toolbar-style-fix/)
 
 9. Android Studio Assets
