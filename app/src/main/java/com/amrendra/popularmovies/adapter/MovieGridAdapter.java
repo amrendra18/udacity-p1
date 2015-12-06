@@ -70,8 +70,7 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.View
 
         Picasso.with(mContext)
                 .load(imageUrl)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.place_holder)
+                .placeholder(R.drawable.place_holder)
                 .into(holder.gridMoviePosterImage, new Callback() {
                     @Override
                     public void onSuccess() {

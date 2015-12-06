@@ -58,8 +58,7 @@ public class TrailerViewAdapter extends RecyclerView.Adapter<TrailerViewAdapter.
                 .load(imageUrl)
                 .fit()
                 .centerCrop()
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.place_holder)
+                .placeholder(R.drawable.place_holder)
                 .into(holder.trailerImage);
 
         // set the image

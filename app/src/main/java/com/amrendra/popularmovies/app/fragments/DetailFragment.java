@@ -4,13 +4,18 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +62,9 @@ public class DetailFragment extends Fragment implements TrailerCallback {
 
     @Bind(R.id.movie_poster_image)
     ImageView posterImageView;
+
+    @Bind(R.id.detail_content_fragment_nested_scroll)
+    NestedScrollView detailContainer;
 
 
     // Overview Card
@@ -164,12 +172,19 @@ public class DetailFragment extends Fragment implements TrailerCallback {
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         shareIntent.setType("text/plain");
 
-        String movieText = "I think you'll like this movie.";
+        String movieText = "Checkout this movie.\n";
         if (mMovie != null) {
-            movieText += " " + mMovie.title + " #" + getResources().getString(R.string.app_name) + "\n";
+            movieText += mMovie.title + "\n";
         }
-        shareIntent.putExtra(Intent.EXTRA_TEXT, movieText);
-        startActivity(shareIntent);
+        movieText += "Shared via #" + getResources().getString(R.string.app_name) + "\n";
+        if (mTrailerList != null && mTrailerList.size() > 0) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT, movieText+ MoviesConstants.TRAILER_VIDEO_URL +
+                    mTrailerList.get(0).key);
+        }
+
+        //shareIntent.putExtra(Intent.EXTRA_SUBJECT, movieText);
+
+        startActivity(Intent.createChooser(shareIntent, getActivity().getString(R.string.action_share)));
     }
 
     @Override
@@ -229,36 +244,11 @@ public class DetailFragment extends Fragment implements TrailerCallback {
         trailerRecyclerView.setNestedScrollingEnabled(false);
 
 
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-/*        String imageUrl = MoviesConstants.API_IMAGE_BASE_URL + MoviesConstants.IMAGE_SIZE_LARGE +
-                mMovie.posterPath;
-
-        Picasso.with(getActivity())
-                .load(imageUrl)
-                .into(posterImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Debug.e("Image replaced", false);
-                        Bitmap posterBitmap = ((BitmapDrawable) posterImageView.getDrawable()).getBitmap();
-                        Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-                                Palette.Swatch vibrant = palette.getVibrantSwatch();
-                                if (vibrant != null) {
-                                }
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                });*/
     }
 
     @Override
@@ -273,6 +263,26 @@ public class DetailFragment extends Fragment implements TrailerCallback {
             Debug.e("Requesting for trailers", false);
             getLoaderManager().initLoader(TRAILER_LOADER, null, trailerListLoaderCallbacks);
         }
+
+
+        Bitmap posterBitmap = ((BitmapDrawable) posterImageView.getDrawable()).getBitmap();
+        Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                Debug.e("Changing colors", false);
+                int currentColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+                int whiteColor = ContextCompat.getColor(getActivity(), R.color.background);
+                int navLightColor = palette.getVibrantColor(currentColor);
+                int navDarkColor = palette.getDarkVibrantColor(currentColor);
+                mCollapsingToolbar.setContentScrimColor(navLightColor);
+                mCollapsingToolbar.setStatusBarScrimColor(navDarkColor);
+                detailContainer.setBackgroundColor(palette.getLightVibrantColor(whiteColor));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getActivity().getWindow().setNavigationBarColor(navLightColor);
+                }
+            }
+        });
+
 
     }
 
