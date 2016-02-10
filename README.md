@@ -1,6 +1,8 @@
-# Filmie
+# Filmie [![Build Status](https://travis-ci.org/thecodegame/udacity-p1.svg?branch=master)](https://travis-ci.org/thecodegame/udacity-p1)
 Movie browsing app, made using [themoviedb](https://www.themoviedb.org/) api,
 as part of Udacity : Popular Movies (Part-1)
+
+Final version of app [here](https://github.com/thecodegame/udacity-p2)
 
 ## Add API key
 In app/build.gradle replace "COPY YOUR MOVIE DB API KEY HERE" with your API key 
