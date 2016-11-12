@@ -58,7 +58,3 @@ Find implementation details [here](../master/Implementation.txt)
 6. Add custom star rating.
 7. Add trailers to view pager at top with poster brackdrop.
 8. Retaining state across device rotation, and restart of app.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/amrendra18/udacity-p1/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
